@@ -1,0 +1,35 @@
+{
+	"locale.language": "Language",
+	"locale.en": "English",
+	"locale.pe": "Pea",
+	"locale.me": "Mea",
+	"locale.dp": "DIGITAL PENSION",
+	"locale.new": "TASPEN",
+
+	"login": "Daftar masuk",
+	"login.title": "DIGITAL PENSION",
+	"login.desc": "ระบบบำเหน็จบำนาญและสวัสดิการรักษาพยาบาล",
+	"login.account": "Nomor ponsel Anda",
+	"login.account_desc": "Silakan masukkan nomor ponsel Anda",
+	"login.password": "Sandi anda",
+	"login.password_desc": "Silakan masukkan sandi anda",
+	"login.login": "Immediately log in",
+	"login.register": "Register the account",
+	"login.toast1": "Please Enter Username And Password!",
+	"login.toast2": " Successfully logged in!",
+	"login.agree": "Setelah Anda sudah memiliki akun, login akan terus menjalankan akun online Taspen yang telah diaktifkan",
+	"locale.language-change-confirm": "Application of the setting will restart App",
+
+
+	"setting.text": "Klik untuk membuka untuk memverifikasi status informasi pribadi Anda",
+	"setting.text1": "Klik untuk mengkonfirmasi informasi pribadi Anda",
+	"setting.login":"kesuksesan",
+	"setting.cancel":"Membatalkan",
+
+	"index.login": "คลิกเพื่อเปิดใช้งาน",
+	"index.title": "DIGITAL PENSION",
+	"index.text": "Silakan tunggu verifikasi Anda sedang berlangsung",
+	
+	"start":"SEKARANG AKTIF"
+	
+	}

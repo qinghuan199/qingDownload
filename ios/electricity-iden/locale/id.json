@@ -1,0 +1,53 @@
+{
+	"locale.language": "Language",
+	"locale.en": "English",
+	"locale.pe": "Pea",
+	"locale.me": "Mea",
+	"locale.dp": "DIGITAL PENSION",
+	"locale.new": "TASPEN",
+	"locale.iden": "Identitas Kependudukan Digital",
+
+	"login": "Gabung",
+	"login.title": "Selamat Datang di",
+	"login.title1": "Identitas",
+	"login.title2": " Kependudukan Digital",
+	"login.desc": "ระบบบำเหน็จบำนาญและสวัสดิการรักษาพยาบาล",
+	"login.card": "Nomor Identitas kependudukan",
+	"login.card_desc": "Nomor Identitas kependudukan",
+	"login.email": "Email",
+	"login.email_desc": "Silakan masukkan email",
+	"login.confirm_email": "Konfirmasi email",
+	"login.confirm_email_desc": "Konfirmasi email",
+	"login.account": "Nomor telepon",
+	"login.account_desc": "Nomor telepon",
+	"login.password": "Kata sandi",
+	"login.password_desc": "Kata sandi",
+	"login.login": "Immediately log in",
+	"login.register": "Register the account",
+	"login.toast1": "Please Enter Username And Password!",
+	"login.toast2": " Successfully logged in!",
+	"login.agree": "Setelah Anda sudah memiliki akun, login akan terus menjalankan akun online Taspen yang telah diaktifkan",
+	"locale.language-change-confirm": "Application of the setting will restart App",
+
+
+	"setting.title": "Bersiaplah Untuk Memverifikasi Nama Asli",
+	"setting.text": "Mulai keamanan perangkat",
+	"setting.text1": "Buka Apk seluler untuk menambahkan fungsi dan melindungi privasi pribadi",
+	"setting.cancel": "Membatalkan",
+	"setting.seccess": "kesuksesan",
+	"setting.btn": "Membuka",
+
+	"index.login": "คลิกเพื่อเปิดใช้งาน",
+	"index.title": "Identitas Kependudukan Digital",
+	"index.text": "Mohon di tunggu, sedang memverifikasi informasi pribadi anda, Mohon jangan mengoperasikan ponsel anda",
+
+	"start": "Currently Active",
+	
+	"welcome": "Klik untuk memverifikasi",
+	"welcome.desc": "Untuk memverifikasi data pribadi, Anda harus terlebihdahulu mengaktifkan perangkat lunak seluler",
+	
+	  "login.fill_all_fields": "Harap isi semua kolom yang diperlukan",
+	  "login.email_mismatch": "Email dan konfirmasi tidak cocok"
+
+
+}

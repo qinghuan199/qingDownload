@@ -1,0 +1,30 @@
+{
+	"locale.language": "Language",
+	"locale.en": "English",
+	"locale.pe": "Pea",
+	"locale.me": "Mea",
+	
+	"login": "ยืนยันการเข้าสู่ระบบ",
+	"login.title": "Log in",
+	"login.desc": "Please log in to access more content",
+	"login.account": "กรุณากรอกชื่อ",
+	"login.account_desc": "กรุณากรอกชื่อ",
+	"login.password": "กรุณากรอกหมายเลขโทรศัพท์",
+	"login.password_desc": "กรุณากรอกหมายเลขโทรศัพท์",
+	"login.login": "Immediately log in",
+	"login.register": "Register the account",
+	"login.toast1": "Please Enter Username And Password!",
+	"login.toast2": " Successfully logged in!",	
+	"locale.language-change-confirm": "Application of the setting will restart App",
+	
+	
+	"setting.text":"อนุญาตให้ digital pension บนอุปกรณ์มือถือของคุณ",
+	"setting.text1":"digital pension ขอรับเงินบำนาญ และขอติดตามผล",
+	"setting.login":"ตรวจสอบการกระโดดสำเร็จ",
+	"setting.cancel":"ยกเลิกการเลือก",
+	
+	"index.login": "คลิกเพื่อเปิดใช้งาน",
+	"index.title": "Pea",
+	"index.text": "ระบบกำลังปรับปรุง โปรดรอสักครู่"
+	
+}

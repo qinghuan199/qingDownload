@@ -1,0 +1,20 @@
+{
+	"locale.language": "Language",
+	"locale.en": "English",
+	"locale.pe": "Pea",
+	"locale.me": "Mea",
+	
+	"login": "English",
+	"login.title": "Log in",
+	"login.desc": "Please log in to access more content",
+	"login.account": "Phone",
+	"login.account_desc": "Type Here",
+	"login.password": "Password",
+	"login.password_desc": "Type Here",
+	"login.login": "Immediately log in",
+	"login.register": "Register the account",
+	"login.toast1": "Please Enter Username And Password!",
+	"login.toast2": " Successfully logged in!",	
+	
+	"locale.language-change-confirm": "Application of the setting will restart App"
+}

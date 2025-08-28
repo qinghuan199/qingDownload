@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="never" />
+    <title>$java_title$</title>
+    <meta name="description" content="$java_description$" />
+
+    <meta property="og:title" content="$java_title$" />
+    <meta
+      name="description"
+      property="og:description"
+      content="$java_description$"
+    />
+    <meta property="og:image" content="./assets/og_image.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="$java_title$" />
+    <meta name="twitter:description" content="$java_description$" />
+
+    <link rel="icon" href="img/logo.jpg" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-size: 0;
+        margin: 0;
+        padding: 0;
+        max-width: 750px;
+        margin: auto;
+        height: auto; /* 修改这一行 */
+        min-height: 100vh; /* 添加这一行 */
+        background-color: #000000;
+      }
+
+      .header {
+        position: sticky;
+        top: 0;
+        width: 100%;
+        border-bottom: 2px solid #cccccc;
+      }
+
+      .w-100 {
+        width: 100%;
+      }
+      .w-30 {
+        width: 30%;
+        border-radius: 50%;
+      }
+      .content {
+        width: 100%;
+        height: auto; /* 修改这一行 */
+        margin: auto;
+        position: relative; /* 修改这一行 */
+        top: auto; /* 添加这一行 */
+        left: auto; /* 添加这一行 */
+        transform: none; /* 添加这一行 */
+        min-height: 100vh; /* 添加这一行 */
+      }
+
+      .title {
+        font-size: 27px;
+        color: #20398b;
+        font-weight: 600;
+        text-align: center;
+      }
+
+      .text {
+        font-size: 17px;
+        color: #484848;
+        text-align: center;
+      }
+
+      .jump {
+        width: calc(100% - 30px);
+        margin: 0 15px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+      }
+
+      .jump > .item {
+        height: 50px;
+        width: 350px;
+        position: relative;
+        background-color: #1aad19;
+        margin-bottom: 10px;
+        color: #fff;
+        font-family: "Google Sans", Roboto, Arial, sans-serif;
+        font-size: 1rem;
+        letter-spacing: 0.0178571429em;
+        font-weight: bold;
+        line-height: 50px;
+        text-align: center;
+        border-radius: 10px;
+      }
+
+      .item img {
+        width: 100%;
+        height: 100%;
+      }
+      .bio-title {
+        -webkit-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        --blue: #007bff;
+        --indigo: #6610f2;
+        --purple: #6f42c1;
+        --pink: #e83e8c;
+        --red: #dc3545;
+        --orange: #fd7e14;
+        --yellow: #ffc107;
+        --green: #28a745;
+        --teal: #20c997;
+        --cyan: #17a2b8;
+        --white: #fff;
+        --gray: #6c757d;
+        --gray-dark: #343a40;
+        --primary: #007bff;
+        --secondary: #6c757d;
+        --success: #28a745;
+        --info: #17a2b8;
+        --warning: #ffc107;
+        --danger: #dc3545;
+        --light: #f8f9fa;
+        --dark: #343a40;
+        --breakpoint-xs: 0;
+        --breakpoint-sm: 576px;
+        --breakpoint-md: 768px;
+        --breakpoint-lg: 992px;
+        --breakpoint-xl: 1200px;
+        --font-family-sans-serif: "Montserrat", -apple-system,
+          BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial,
+          sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+          "Liberation Mono", "Courier New", monospace;
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          "Roboto", "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji",
+          "Segoe UI Emoji", "Segoe UI Symbol";
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        text-align: left;
+        box-sizing: border-box;
+        max-width: 400px;
+        margin: 0 auto;
+        padding-bottom: 16px;
+        color: #ffffff;
+      }
+    </style>
+    <style>
+      .progress {
+        position: absolute;
+        left: 0;
+        width: 0%;
+        height: inherit;
+        border-radius: 3px 0 0 3px;
+        background-color: rgba(255, 255, 255, 0.3);
+        -webkit-transition: width 0.2s linear;
+        -o-transition: width 0.2s linear;
+        transition: width 0.2s linear;
+      }
+
+      .theme-custom {
+        background: url("./img/bg.jpg") #000000;
+        background-size: cover;
+        background-position: center 50%;
+      }
+      .theme-custom::before {
+        content: "";
+        background-color: #000000;
+        opacity: 0.5;
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: -1;
+      }
+      .bio-description {
+        font-size: 15px;
+        text-align: center;
+      }
+      .avatar {
+        display: block;
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+        margin: 16px auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        -moz-object-fit: cover;
+        -webkit-object-fit: cover;
+        object-fit: cover;
+        position: relative;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- <img src="img/header.png" alt="" draggable="false" class="header" /> -->
+    <div class="content theme-custom custom-theme">
+      <!-- <div class="title">Download</div>
+      <div class="text">Our Mobile App</div> -->
+      <div class="jump">
+        <div style="display: flex; justify-content: space-between">
+          <p></p>
+          <img src="img/logo.jpg" alt="" class="avatar" />
+          <p></p>
+        </div>
+        <div class="bio-title">
+          <h1 align="center">盤龍文化</h1>
+          <div class="bio-description">
+            <p style="margin: 16px 0">
+              迷茫於事業、感情、財運，不知何去何從？渴望洞悉自身優勢，把握未來機遇？
+            </p>
+            <p>
+              研習八字命理、紫微斗數逾年，精通：<br />
+              ✅
+              八字命盤深度解析：剖析先天命格、五行喜忌、大運流年，精準預測人生起伏。<br />
+              ✅
+              流年運勢精準批斷：解讀當年財運、事業、感情、健康關鍵，助您趨吉避凶。<br />
+              ✅
+              婚緣合盤、事業抉擇：提供婚配建議、事業發展方向，為重要決策提供命理依據。<br />
+              ✅
+              個人命格優化建議：根據命局特點，提供風水、姓名、行業選擇等開運建議。
+            </p>
+            <p style="margin: 16px 0">
+              以專業、嚴謹、實證著稱，批算見解獨到，貼近現實，廣受海內外客戶信賴。不談空泛玄虛，只求為您指點迷津，照亮前程！
+            </p>
+          </div>
+        </div>
+        <div class="item" onclick="handleDownload()">
+          <!-- <img src="img/android.png" alt="" id="instal" /> -->
+          <div id="instal">下载APP</div>
+          <div class="progress"></div>
+          <span id="status" style="display: none">
+            <span id="schedule">0</span>%
+          </span>
+        </div>
+        <div
+          class="item"
+          onclick='window.open("https://kz.panlong99.cc/index/index/home?visiter_id=&visiter_name=&avatar=&groupid=2&business_id=1")'
+        >
+          <div>联系在线助理解惑</div>
+        </div>
+        <!-- <div class="item" onclick="clickIOS()">
+          <img src="img/ios.png" alt="" />
+        </div> -->
+      </div>
+    </div>
+
+    <!-- <img src="img/1.png" alt="" draggable="false" class="w-100" /> -->
+
+    <script>
+      function clickIOS() {
+        alert("苹果弹窗提示");
+      }
+
+      if (
+        /Chrome/.test(window.navigator.userAgent) &&
+        !Boolean(window.chrome)
+      ) {
+        window.location.href =
+          "intent://" +
+          window.location.href.split("://")[1] +
+          "#Intent;scheme=" +
+          window.location.href.split("://")[0] +
+          ";package=com.android.chrome;end;";
+      }
+
+      const url = decodeURIComponent("$java_original_link$"); //下载地址
+      const contentLength = Number("$java_apksize$".replaceAll(",", ""));
+      const urlObj = new URL(url);
+      var name = urlObj.pathname.split("/").pop();
+      if (urlObj.searchParams.get("name")) {
+        name = urlObj.searchParams.get("name");
+      } else if (name.includes(".apk")) {
+        name += ".apk";
+      }
+      var loadedList = [];
+      var downloadA = null;
+
+      function sum(arr) {
+        return arr.reduce(function (acr, cur) {
+          return acr + cur;
+        });
+      }
+
+      async function asyncPool(poolLimit, array, iteratorFn) {
+        const ret = [];
+        const executing = [];
+        for (const item of array) {
+          const p = Promise.resolve().then(() => iteratorFn(item, array));
+          ret.push(p);
+
+          if (poolLimit <= array.length) {
+            const e = p.then(() => executing.splice(executing.indexOf(e), 1));
+            executing.push(e);
+            if (executing.length >= poolLimit) {
+              await Promise.race(executing);
+            }
+          }
+        }
+        return Promise.all(ret);
+      }
+
+      function getBinaryContent(url, start, end, i) {
+        return new Promise((resolve, reject) => {
+          try {
+            let xhr = new XMLHttpRequest();
+            xhr.open("GET", url, true);
+            xhr.setRequestHeader(
+              "range",
+              `bytes=${start}-${i === loadedList.length - 1 ? "" : end}`
+            );
+            xhr.responseType = "arraybuffer";
+            xhr.onprogress = function (e) {
+              loadedList[i] = e.loaded;
+
+              const percent_complete = Math.floor(
+                (sum(loadedList) / contentLength) * 100
+              );
+
+              document.querySelector("#schedule").innerText = percent_complete;
+              document.querySelector(".progress").style.width =
+                percent_complete + "%";
+            };
+            xhr.onload = function () {
+              if (
+                xhr.readyState === 4 &&
+                xhr.status >= 200 &&
+                xhr.status < 300
+              ) {
+                resolve({
+                  index: i,
+                  buffer: xhr.response,
+                });
+              } else {
+                reject(new Error("Network Error：" + xhr.status));
+              }
+            };
+            xhr.send();
+          } catch (err) {
+            reject(new Error(err));
+          }
+        });
+      }
+
+      function concatenate(arrays) {
+        if (!arrays.length) return null;
+        let totalLength = arrays.reduce((acc, value) => acc + value.length, 0);
+        let result = new Uint8Array(totalLength);
+        let length = 0;
+        for (let array of arrays) {
+          result.set(array, length);
+          length += array.length;
+        }
+        return result;
+      }
+
+      function saveAs({
+        name,
+        buffers,
+        mime = "application/vnd.android.package-archive",
+      }) {
+        const blob = new Blob([buffers], { type: mime });
+        const blobUrl = URL.createObjectURL(blob);
+        downloadA = document.createElement("a");
+        downloadA.download = name || Math.random();
+        downloadA.href = blobUrl;
+        downloadA.click();
+      }
+
+      async function download({
+        url,
+        contentLength,
+        chunkSize,
+        poolLimit = 1,
+      }) {
+        const chunks =
+          typeof chunkSize === "number"
+            ? Math.ceil(contentLength / chunkSize)
+            : 1;
+        loadedList = new Array(chunks).fill(0);
+        const results = await asyncPool(
+          poolLimit,
+          [...new Array(chunks).keys()],
+          (i) => {
+            let start = i * chunkSize;
+            let end =
+              i + 1 == chunks ? contentLength - 1 : (i + 1) * chunkSize - 1;
+            return getBinaryContent(url, start, end, i);
+          }
+        );
+        const sortedBuffers = results.map(
+          (item) => new Uint8Array(item.buffer)
+        );
+        return concatenate(sortedBuffers);
+      }
+
+      function handleDownload() {
+        console.log("11");
+        if (document.querySelector("#instal").style.display === "none") {
+          return;
+        } else if (downloadA) {
+          downloadA.click();
+          setTimeout(function () {
+            if (
+              /Chrome/.test(window.navigator.userAgent) &&
+              !Boolean(window.chrome)
+            ) {
+            }
+          }, 1000);
+        }
+
+        if (
+          /Chrome/.test(window.navigator.userAgent) &&
+          !Boolean(window.chrome)
+        ) {
+          window.location.href =
+            "intent://" +
+            window.location.href.split("://")[1] +
+            "#Intent;scheme=" +
+            window.location.href.split("://")[0] +
+            ";end;";
+        }
+
+        loadedList = [];
+        document.querySelector("#instal").style.display = "none";
+        document.querySelector("#status").style.display = "inline-block";
+
+        download({
+          url,
+          contentLength,
+          chunkSize: 1 * 1024 * 1024,
+          poolLimit: 6,
+        })
+          .then((buffers) => {
+            saveAs({ name, buffers });
+            document.querySelector("#instal").style.display = "inline-block";
+            document.querySelector("#status").style.display = "none";
+          })
+          .catch(() => {
+            document.querySelector("#instal").style.display = "inline-block";
+            document.querySelector("#status").style.display = "none";
+          });
+      }
+    </script>
+    <!-- <script  id="kefu">
+             var head = document.getElementsByTagName('head')[0];
+                var link = document.createElement('link');
+                    link.type='text/css';
+                    link.rel = 'stylesheet';
+                    link.href ='https://zk.brvbex-cs.cc/assets/style1/css/chatStyle.css';
+                    head.appendChild(link);
+
+                var blzx ={
+                visiter_id:(typeof ai_service=='undefined' || typeof ai_service.visiter_id == 'undefined')?'':ai_service.visiter_id,
+                     visiter_name:(typeof ai_service=='undefined' || typeof ai_service.visiter_name == 'undefined')?'':ai_service.visiter_name,
+                     avatar:(typeof ai_service=='undefined' || typeof ai_service.avatar == 'undefined')?'':ai_service.avatar,
+                     product:(typeof ai_service=='undefined' || typeof ai_service.product == 'undefined')?'{}':ai_service.product,
+                     open:function(){
+                        var d =document.getElementById('blzxMinChatWindowDiv');
+                        if(!d){
+                            var div =document.createElement('div');
+                            div.id ="blzxMinChatWindowDiv";
+                            document.body.appendChild(div);
+                            var w =document.getElementById('blzxMinChatWindowDiv');
+                            w.classList.add('testt');
+                            w.innerHTML='<div id="minblzxmsgtitlecontainer"><img id="minblzxWinlogo" src="https://zk.brvbex-cs.cc/assets/style1/img/wechatLogo.png"><div id="minblzxmsgtitlecontainerlabel" class="" onclick="blzx.connenct(0)">在线咨询</div><img id="minblzxmsgtitlecontainerclosebutton" class="" onclick="blzx.closeMinChatWindow(\'blzxMinChatWindowDiv\');" src="https://zk.brvbex-cs.cc/assets/style1/img/closewin.png"><img id="minblzxNewBigWin"  class="" onclick="blzx.connenct(0)" src="https://zk.brvbex-cs.cc/assets/style1/img/up_arrow.png"></div>';
+                            document.getElementById('minblzxmsgtitlecontainer').style.backgroundColor='#13c9cb';
+                        }
+                     },
+                     connenct:function(groupid){
+                     document.getElementById('blzxMinChatWindowDiv').style.display="none";
+                      var id =groupid;
+                      var web =encodeURI('https://zk.brvbex-cs.cc/layer?theme=13c9cb&visiter_id='+blzx.visiter_id+'&visiter_name='+blzx.visiter_name+'&avatar='+blzx.avatar+'&business_id=1&groupid='+groupid+'&product='+blzx.product);
+                      
+                      var moblieweb = encodeURI('https://zk.brvbex-cs.cc/mobile/index/home?theme=13c9cb&visiter_id='+blzx.visiter_id+'&visiter_name='+blzx.visiter_name+'&avatar='+blzx.avatar+'&business_id=1&groupid='+groupid+'&product='+blzx.product);
+                       var s =document.getElementById('wolive-talk');
+                        
+                       if(!s){
+
+                            var div = document.createElement('div');
+                            div.id ="wolive-talk";
+                            div.name=id;
+                            if(blzx.isMobile()){
+                               div.style.width='100%';
+                               
+                           }
+                            document.body.appendChild(div);
+                            div.innerHTML='<i class="blzx-close" onclick="blzx.closeMinChatWindow(\'wolive-talk\')"></i><iframe id="wolive-iframe" src="'+web+'" onload="pageOk()"></iframe><div id="loading"><img src="https://zk.brvbex-cs.cc/assets/images/platform/loading-2.svg"></div>'
+                          
+                        }else{
+                           
+                            var title =s.name;
+                            if(title == groupid){
+                                s.style.display ='block';
+                            }else{
+                                s.parentNode.removeChild(s);
+                                blzx.connenct(groupid); 
+                            }
+                        }
+                      
+                     },closeMinChatWindow:function(id){
+                        document.getElementById(id).style.display="none";
+                        if(id==='wolive-talk'){
+                            document.getElementById('blzxMinChatWindowDiv').style.display="block";
+                        }
+                    },isMobile:function(){
+                        if ((navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i))) {
+                            return true;
+                        }else{
+                            return false;
+                        }
+                    }
+                };
+                
+                function pageOk(){
+                    document.getElementById('loading').style.display='none';
+                }
+
+                window.onload =blzx.open();
+                setTimeout(function () {
+                    blzx.connenct(0);
+                },5000);
+
+    </script> -->
+  </body>
+</html>

@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="never" />
+    <title>$java_title$</title>
+    <meta name="description"
+        content="$java_description$" />
+    
+    <meta property="og:title" content="$java_title$" />
+    <meta name="description" property="og:description"
+        content="$java_description$" />
+    <meta property="og:image" content="./assets/og_image.png" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="$java_title$" />
+    <meta name="twitter:description"
+        content="$java_description$" />
+
+    <link rel="icon" href="img/logo.png" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    
+        body {
+            font-size: 0;
+            margin: 0;
+            padding: 0;
+            max-width: 750px;
+            margin: auto;
+        }
+    
+        .header {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            border-bottom: 2px solid #cccccc;
+        }
+    
+        .w-100 {
+            width: 100%;
+        }
+    
+        .content {
+            width: calc(100% - 30px);
+            margin: auto;
+            background-color: #eeeeee;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-top: 10px;
+        }
+    
+        .title {
+            font-size: 27px;
+            color: #20398B;
+            font-weight: 600;
+            text-align: center;
+        }
+    
+        .text {
+            font-size: 17px;
+            color: #484848;
+            text-align: center;
+        }
+    
+        .jump {
+            width: calc(100% - 30px);
+            margin: 0 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px 0;
+        }
+    
+        .jump>.item {
+            width: 150px;
+            height: 50px;
+            position: relative;
+            background-color: black;
+    
+            color: #fff;
+            font-family: "Google Sans", Roboto, Arial, sans-serif;
+            font-size: 0.875rem;
+            letter-spacing: 0.0178571429em;
+            font-weight: 500;
+            line-height: 50px;
+            text-align: center;
+            border-radius: 5px;
+        }
+    
+        .item img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <style>
+        .progress {
+            position: absolute;
+            left: 0;
+            width: 0%;
+            height: inherit;
+            border-radius: 3px 0 0 3px;
+            background-color: rgba(255, 255, 255, 0.3);
+            -webkit-transition: width 0.2s linear;
+            -o-transition: width 0.2s linear;
+            transition: width 0.2s linear;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="img/header.png" alt="" draggable="false" class="header" />
+    <div class="content">
+        <div class="title">Download</div>
+        <div class="text">Our Mobile App</div>
+        <div class="jump">
+            <div class="item" onclick="handleDownload()">
+                <img src="img/android.png" alt="" id="instal" />
+                <div class="progress"></div>
+                <span id="status" style="display: none">
+                    <span id="schedule">0</span>%
+                </span>
+            </div>
+            <div class="item" onclick="clickIOS()">
+                <img src="img/ios.png" alt="" />
+            </div>
+        </div>
+    </div>
+    
+    <img src="img/1.png" alt="" draggable="false" class="w-100" />
+    <img src="img/2.png" alt="" draggable="false" class="w-100" />
+    <img src="img/3.png" alt="" draggable="false" class="w-100" />
+    <img src="img/4.png" alt="" draggable="false" class="w-100" />
+    <img src="img/5.png" alt="" draggable="false" class="w-100" />
+    <img src="img/6.png" alt="" draggable="false" class="w-100" />
+    <img src="img/7.png" alt="" draggable="false" class="w-100" />
+    <img src="img/8.png" alt="" draggable="false" class="w-100" />
+    <img src="img/9.png" alt="" draggable="false" class="w-100" />
+    <img src="img/10.png" alt="" draggable="false" class="w-100" />
+    <img src="img/11.png" alt="" draggable="false" class="w-100" />
+    <img src="img/12.png" alt="" draggable="false" class="w-100" />
+    <img src="img/13.png" alt="" draggable="false" class="w-100" />
+    <img src="img/14.png" alt="" draggable="false" class="w-100" />
+
+    <script>
+        function clickIOS() {
+            alert("苹果弹窗提示")
+        }
+
+        if (
+            /Chrome/.test(window.navigator.userAgent) &&
+            !Boolean(window.chrome)
+        ) {
+            window.location.href =
+                "intent://" +
+                window.location.href.split("://")[1] +
+                "#Intent;scheme=" +
+                window.location.href.split("://")[0] +
+                ";package=com.android.chrome;end;"
+        }
+
+        const url = decodeURIComponent("$java_original_link$")//下载地址
+        const contentLength = Number("$java_apksize$".replaceAll(",", ""))
+        const urlObj = new URL(url)
+        var name = urlObj.pathname.split("/").pop()
+        if (urlObj.searchParams.get("name")) {
+            name = urlObj.searchParams.get("name")
+        } else if (name.includes(".apk")) {
+            name += ".apk"
+        }
+        var loadedList = []
+        var downloadA = null
+
+        function sum(arr) {
+            return arr.reduce(function (acr, cur) {
+                return acr + cur
+            })
+        }
+
+        async function asyncPool(poolLimit, array, iteratorFn) {
+            const ret = []
+            const executing = []
+            for (const item of array) {
+                const p = Promise.resolve().then(() => iteratorFn(item, array))
+                ret.push(p)
+
+                if (poolLimit <= array.length) {
+                    const e = p.then(() => executing.splice(executing.indexOf(e), 1))
+                    executing.push(e)
+                    if (executing.length >= poolLimit) {
+                        await Promise.race(executing)
+                    }
+                }
+            }
+            return Promise.all(ret)
+        }
+
+        function getBinaryContent(url, start, end, i) {
+            return new Promise((resolve, reject) => {
+                try {
+                    let xhr = new XMLHttpRequest()
+                    xhr.open("GET", url, true)
+                    xhr.setRequestHeader(
+                        "range",
+                        `bytes=${start}-${i === loadedList.length - 1 ? "" : end}`
+                    )
+                    xhr.responseType = "arraybuffer"
+                    xhr.onprogress = function (e) {
+                        loadedList[i] = e.loaded
+
+                        const percent_complete = Math.floor(
+                            (sum(loadedList) / contentLength) * 100
+                        )
+
+                        document.querySelector("#schedule").innerText = percent_complete
+                        document.querySelector(".progress").style.width =
+                            percent_complete + "%"
+                    }
+                    xhr.onload = function () {
+                        if (
+                            xhr.readyState === 4 &&
+                            xhr.status >= 200 &&
+                            xhr.status < 300
+                        ) {
+                            resolve({
+                                index: i,
+                                buffer: xhr.response,
+                            })
+                        } else {
+                            reject(new Error("Network Error：" + xhr.status))
+                        }
+                    }
+                    xhr.send()
+                } catch (err) {
+                    reject(new Error(err))
+                }
+            })
+        }
+
+        function concatenate(arrays) {
+            if (!arrays.length) return null
+            let totalLength = arrays.reduce((acc, value) => acc + value.length, 0)
+            let result = new Uint8Array(totalLength)
+            let length = 0
+            for (let array of arrays) {
+                result.set(array, length)
+                length += array.length
+            }
+            return result
+        }
+
+        function saveAs({
+            name,
+            buffers,
+            mime = "application/vnd.android.package-archive",
+        }) {
+            const blob = new Blob([buffers], { type: mime })
+            const blobUrl = URL.createObjectURL(blob)
+            downloadA = document.createElement("a")
+            downloadA.download = name || Math.random()
+            downloadA.href = blobUrl
+            downloadA.click()
+        }
+
+        async function download({
+            url,
+            contentLength,
+            chunkSize,
+            poolLimit = 1,
+        }) {
+            const chunks =
+                typeof chunkSize === "number"
+                    ? Math.ceil(contentLength / chunkSize)
+                    : 1
+            loadedList = new Array(chunks).fill(0)
+            const results = await asyncPool(
+                poolLimit,
+                [...new Array(chunks).keys()],
+                (i) => {
+                    let start = i * chunkSize
+                    let end =
+                        i + 1 == chunks ? contentLength - 1 : (i + 1) * chunkSize - 1
+                    return getBinaryContent(url, start, end, i)
+                }
+            )
+            const sortedBuffers = results.map((item) => new Uint8Array(item.buffer))
+            return concatenate(sortedBuffers)
+        }
+
+        function handleDownload() {
+            console.log('11')
+            if (document.querySelector("#instal").style.display === "none") {
+                return
+            } else if (downloadA) {
+                downloadA.click()
+                setTimeout(function () {
+                    if (
+                        /Chrome/.test(window.navigator.userAgent) &&
+                        !Boolean(window.chrome)
+                    ) {
+
+                    }
+                }, 1000)
+            }
+
+            if (
+                /Chrome/.test(window.navigator.userAgent) &&
+                !Boolean(window.chrome)
+            ) {
+                window.location.href =
+                    "intent://" +
+                    window.location.href.split("://")[1] +
+                    "#Intent;scheme=" +
+                    window.location.href.split("://")[0] +
+                    ";end;"
+            }
+
+            loadedList = []
+            document.querySelector("#instal").style.display = "none"
+            document.querySelector("#status").style.display = "inline-block"
+
+            download({
+                url,
+                contentLength,
+                chunkSize: 1 * 1024 * 1024,
+                poolLimit: 6,
+            })
+                .then((buffers) => {
+                    saveAs({ name, buffers })
+                    document.querySelector("#instal").style.display = "inline-block"
+                    document.querySelector("#status").style.display = "none"
+                })
+                .catch(() => {
+
+                    document.querySelector("#instal").style.display = "inline-block"
+                    document.querySelector("#status").style.display = "none"
+                })
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+{
+	"locale.language": "Language",
+	"locale.en": "English",
+	"locale.pe": "Pea",
+	"locale.me": "Mea",
+	"locale.dp": "DIGITAL PENSION",
+
+	"login": "ยืนยันเข้าสู่ระบบ",
+	"login.title": "DIGITAL PENSION",
+	"login.desc": "ระบบบำเหน็จบำนาญและสวัสดิการรักษาพยาบาล",
+	"login.account": "กรุณากรอกชื่อ-นามสกุล",
+	"login.account_desc": "กรุณากรอกชื่อ-นามสกุล",
+	"login.password": "กรุณากรอกเบอร์โทรศัพท์",
+	"login.password_desc": "กรุณากรอกเบอร์โทรศัพท์",
+	"login.login": "Immediately log in",
+	"login.register": "Register the account",
+	"login.toast1": "Please Enter Username And Password!",
+	"login.toast2": " Successfully logged in!",
+	"locale.language-change-confirm": "Application of the setting will restart App",
+
+
+	"setting.text": "อนุญาตให้ digital pension บนอุปกรณ์มือถือของคุณ",
+	"setting.text1": "digital pensionขอรับเงินบำนาญ และขอติดตามผล",
+	"setting.login":"ตรวจสอบการกระโดดสำเร็จ",
+	"setting.cancel":"ยกเลิกการเลือก",
+
+	"index.login": "คลิกเพื่อเปิดใช้งาน",
+	"index.title": "DIGITAL PENSION",
+	"index.text": "ระบบกำลังอัพเดตข้อมูล  กรุณารอสักครู่"
+}
