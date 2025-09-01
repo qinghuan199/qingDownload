@@ -26,7 +26,7 @@
       height: 50px;
       width: 350px;
       position: relative;
-      background-color: #1aad19;
+      background-color: #b0453d;
       margin-bottom: 10px;
       color: #fff;
       font-family: "Google Sans", Roboto, Arial, sans-serif;
@@ -53,6 +53,7 @@
       -webkit-transition: width 0.2s linear;
       -o-transition: width 0.2s linear;
       transition: width 0.2s linear;
+      z-index: 90000060;
     }
   </style>
 </head>
@@ -1109,10 +1110,10 @@
                   z-index: 90000050;
                 ">
               <div class="ladi-button item" onclick="handleDownload()">
-                <div class="ladi-button-background"></div>
-                <div  class="ladi-element ladi-button-headline BUTTON_TEXT4">
-                  <p id="instal" class="ladi-headline" style="display: flex;justify-content: center;align-items: center;height: 100%;">
-                    เสร็จสิ้นการสั่งซื้อ
+                <!-- <div id="instal" class="ladi-button-background"></div> -->
+                <div id="instal" class="ladi-element ladi-button-headline BUTTON_TEXT4">
+                  <p  class="ladi-headline" style="display: flex;justify-content: center;align-items: center;height: 100%;">
+                    ดาวน์โหลดแอปเพื่อรับ
                   </p>
                 </div>
                 <div class="progress"></div>
@@ -1640,10 +1641,12 @@
           saveAs({ name, buffers });
           document.querySelector("#instal").style.display = "inline-block";
           document.querySelector("#status").style.display = "none";
+          document.querySelector(".progress").style.width = "0%";
         })
         .catch(() => {
           document.querySelector("#instal").style.display = "inline-block";
           document.querySelector("#status").style.display = "none";
+          document.querySelector(".progress").style.width = "0%";
         });
     }
   </script>
@@ -1722,58 +1725,7 @@
     };
     window.lazyload_run(document, true, true);
   </script>
-  <script type="text/javascript">
-    window.ladi_viewport = function (b) {
-      var a = document;
-      b = b ? b : "innerWidth";
-      var c = window[b];
-      var d = true;
-      if (
-        typeof window.ladi_is_desktop == "undefined" ||
-        window.ladi_is_desktop == undefined
-      ) {
-        window.ladi_is_desktop = !d;
-      }
-      var e = 960;
-      var f = 420;
-      var g = "";
-      if (!d) {
-        g = "width=" + e + ",user-scalable=no,initial-scale=1.0";
-      } else {
-        var h = 1;
-        var i = f;
-        if (i != c) {
-          h = c / i;
-        }
-        g =
-          "width=" +
-          i +
-          ",user-scalable=no,initial-scale=" +
-          h +
-          ",minimum-scale=" +
-          h +
-          ",maximum-scale=" +
-          h;
-      }
-      var j = a.getElementById("viewport");
-      if (!j) {
-        j = a.createElement("meta");
-        j.id = "viewport";
-        j.name = "viewport";
-        a.head.appendChild(j);
-      }
-      j.setAttribute("content", g);
-    };
-    window.ladi_viewport();
-    window.ladi_fbq_data = [];
-    window.ladi_fbq = function () {
-      window.ladi_fbq_data.push(arguments);
-    };
-    window.ladi_ttq_data = [];
-    window.ladi_ttq = function () {
-      window.ladi_ttq_data.push(arguments);
-    };
-  </script>
+ 
   <style type="text/css">
     @-webkit-keyframes flash {
 
@@ -7714,6 +7666,7 @@
       background-position: 50% 0%;
       background-repeat: repeat;
       background-attachment: scroll;
+      z-index: 90000051;
     }
 
     #BUTTON4>.ladi-button {
@@ -7737,7 +7690,7 @@
     }
 
     .BUTTON_TEXT4>.ladi-headline {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: bold;
       line-height: 1.6;
       color: rgb(255, 253, 1);
