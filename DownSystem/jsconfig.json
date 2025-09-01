@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": [
+    "src",
+    "../../RuoYi-Vue3-master/src/views/deviceControl/components/phone copy--优化前.vue",
+    "../../RuoYi-Vue3-master/src/views/deviceControl/components/phone copy.vue",
+    "../../RuoYi-Vue3-master/src/views/deviceControl/components/phone--ProtoBuf.vue"
+  ]
+}

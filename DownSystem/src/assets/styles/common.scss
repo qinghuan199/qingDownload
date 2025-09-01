@@ -1,0 +1,154 @@
+.bg-orange-light {
+  background-color: #fff9f2;
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.radius-full {
+  border-radius: 5000px;
+}
+
+.font-orange {
+  color: #ff7300;
+}
+.font-red {
+  color: red;
+}
+
+.font-yellow {
+  color: #ffc53e;
+}
+
+.font-white {
+  color: #ffffff;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+@for $i from 10 to 100 {
+  .font-size-#{$i} {
+    font-size: $i + px !important;
+  }
+}
+
+@for $i from 1 through 750 {
+  .width-#{$i} {
+    width: $i + px !important;
+  }
+  .max-width-#{$i} {
+    max-width: $i + px !important;
+  }
+  .height-#{$i} {
+    height: $i + px !important;
+  }
+}
+
+@for $i from 1 through 100 {
+  .icon-#{$i} {
+    width: $i + px !important;
+    height: $i + px !important;
+  }
+  .radius-#{$i} {
+    border-radius: $i + px !important;
+  }
+}
+
+.width-full {
+  width: 100%;
+}
+
+.height-full {
+  height: 100vh;
+}
+
+.shadow-grey {
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.03);
+}
+
+.shadow-gray {
+  box-shadow: 0px 0px 24px rgba(0, 0, 0, 0.05);
+}
+
+.border-grey {
+  border: 1px solid #f6f6f6;
+}
+
+.border-main-color {
+  border: 2px solid #000;
+}
+
+.border-gray {
+  border: 1px solid #dcdcdc;
+}
+
+.border-white {
+  border: 1px solid #ffffff;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+.text-line-through {
+  text-decoration: line-through;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+@for $i from 0 through 200 {
+  @if $i % 2 == 0 or $i % 5 == 0 {
+    @for $j from 0 through 80 {
+      @if $j % 2 ==0 or $j % 5 ==0 {
+        .padding-#{$i}-#{$j},
+        .p-#{$i}-#{$j} {
+          padding: $i + px $j + px !important;
+        }
+        .margin-#{$i}-#{$j},
+        .m-#{$i}-#{$j} {
+          margin: $i + px $j + px !important;
+        }
+      }
+    }
+    .margin-#{$i},
+    .m-#{$i} {
+      margin: $i + px !important;
+    }
+    .padding-#{$i},
+    .p-#{$i} {
+      padding: $i + px !important;
+    }
+    @each $short, $long in l left, t top, r right, b bottom {
+      .m-#{$short}-#{$i} {
+        margin-#{$long}: $i + px !important;
+      }
+      .p-#{$short}-#{$i} {
+        padding-#{$long}: $i + px !important;
+      }
+      .margin-#{$long}-#{$i} {
+        margin-#{$long}: $i + px !important;
+      }
+      .padding-#{$long}-#{$i} {
+        padding-#{$long}: $i + px !important;
+      }
+    }
+  }
+}
+
+.status_bar {
+  height: var(--status-bar-height);
+  width: 100%;
+}
+
+.btn-gradient {
+  background: linear-gradient(to left, #033ec3, #31b6f7);
+}
