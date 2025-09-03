@@ -46,7 +46,7 @@
               <el-button size="small" @click="openEditModal(scope.row)">
                 {{ $t("编辑") }}
               </el-button>
-              <el-button class="m-l-10" type="danger" size="small" @click="delPerson(scope.row.id)">
+              <el-button class="m-l-10" type="danger" size="small" @click="delCountry(scope.row.id)">
                 {{ $t("删除") }}
               </el-button>
             </template>
@@ -149,7 +149,7 @@ const searchCountryList = () => {
 
 const tableData = ref([]);
 // 获取国家列表数据
-const getPerson = () => {
+const getCountryList = () => {
   loading.value = true;
   getCountryListPage({
     currentPage: currentPage.value,
@@ -173,12 +173,12 @@ const getPerson = () => {
 // 分页处理
 const handleSizeChange = (val) => {
   pageSize.value = val;
-  getPerson();
+  getCountryList();
 };
 
 const handleCurrentChange = (val) => {
   currentPage.value = val;
-  getPerson();
+  getCountryList();
 };
 
 //新增弹窗
@@ -223,7 +223,7 @@ const setPerson = () => {
         message: t("操作成功"),
         type: "success",
       });
-      getPerson();
+      getCountryList();
       console.log("新增国家数据", res.data);
       state.followUp = false;
     })
@@ -258,7 +258,7 @@ const editPerson = () => {
         type: "success",
       });
       state.followUp = false;
-      getPerson();
+      getCountryList();
       console.log("保存国家数据成功", res.data);
     })
     .catch((error) => {
@@ -267,7 +267,7 @@ const editPerson = () => {
 };
 
 // 删除国家id
-const delPerson = (id) => {
+const delCountry = (id) => {
   ElMessageBox.confirm(t("是否确认删除"), t("提示"), {
     confirmButtonText: t("确定"),
     cancelButtonText: t("取消"),
@@ -281,7 +281,7 @@ const delPerson = (id) => {
               type: "success",
               message: t("删除成功"),
             });
-            getPerson();
+            getCountryList();
           }
         })
         .catch((error) => {
@@ -300,12 +300,12 @@ const delPerson = (id) => {
 const refresh = () => {
   personData.name = "";
   currentPage.value = 1;
-  getPerson();
+  getCountryList();
 };
 
 // 组件挂载时执行
 onMounted(() => {
-  getPerson();
+  getCountryList();
 });
 </script>
 

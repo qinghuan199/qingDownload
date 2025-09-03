@@ -57,7 +57,7 @@
         </div>
         <el-table v-loading="loading" :data="tableData" style="width: 100%" class="m-b-10 adaptive-table" size="small">
           <el-table-column prop="id" :label="$t('ID')" width="120" />
-          <el-table-column prop="name" :label="$t('盘口名称')" width="180" />
+          <el-table-column prop="name" :label="$t('盘口名称')"/>
           <el-table-column :label="$t('关联国家')">
             <template #default="scope">
               <el-tag v-for="country in scope.row.countryList" :key="country.id" type="info" size="small"
@@ -110,10 +110,19 @@
       class="demo-ruleForm" label-position="top" :size="formSize" status-icon require-asterisk-position="right"
       :hide-required-asterisk="true">
       
-      <!-- 盘口名称 -->
-      <el-form-item :label="$t('盘口名称')" prop="name">
-        <el-input v-model="ruleForm.name" :placeholder="$t('请输入盘口名称')" style="width: 300px" />
-      </el-form-item>
+      <!-- 盘口名称和Telegram群组ID同行显示 -->
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-form-item :label="$t('盘口名称')" prop="name">
+            <el-input v-model="ruleForm.name" :placeholder="$t('请输入盘口名称')" style="width: 100%" />
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item :label="$t('Telegram群组ID')" prop="telegramGroupId">
+            <el-input v-model="ruleForm.telegramGroupId" :placeholder="$t('请输入Telegram群组ID')" style="width: 100%" />
+          </el-form-item>
+        </el-col>
+      </el-row>
       
       <!-- 独立的国家列表选择 -->
       <el-form-item :label="$t('盘口关联国家')" prop="countryIdList">
@@ -128,7 +137,7 @@
         <div style="display: flex; gap: 20px; min-height: 400px;">
           <!-- 左侧：管理员列表 -->
           <div style=" border: 1px solid #dcdfe6; border-radius: 4px; padding: 15px;">
-            <h4 style="margin: 0 0 15px 0; color: #606266;">{{ $t('选择管理员') }}</h4>
+            <h4 style="margin: 0 0 15px 0; color: #606266;width: 120px">{{ $t('选择管理员') }}</h4>
             <el-checkbox-group v-model="selectedAdminIds" @change="handleAdminChange">
               <div v-for="admin in adminList" :key="admin.id" style="margin-bottom: 8px;">
                 <el-checkbox :value="admin.id">
@@ -176,6 +185,7 @@
       <el-descriptions :column="2" border>
         <el-descriptions-item :label="$t('ID')">{{ handicapDetail.id }}</el-descriptions-item>
         <el-descriptions-item :label="$t('盘口名称')">{{ handicapDetail.name }}</el-descriptions-item>
+        <el-descriptions-item :label="$t('Telegram群组ID')">{{ handicapDetail.telegramGroupId }}</el-descriptions-item>
       </el-descriptions>
 
       <div class="m-t-20">
@@ -295,6 +305,7 @@ const formSize = ref("default");
 const ruleFormRef = ref();
 const ruleForm = reactive({
   name: "",
+  telegramGroupId: "", // Telegram群组ID
   countryIdList: [], // 盘口关联的国家ID列表
   userCountryList: [] // 管理员国家配置列表
 });
@@ -488,6 +499,7 @@ const updateUserCountryList = () => {
 // 重置表单
 const resetRuleForm = () => {
   ruleForm.name = "";
+  ruleForm.telegramGroupId = ""; // 清空Telegram群组ID
   ruleForm.countryIdList = [];
   ruleForm.userCountryList = [];
   selectedAdminIds.value = [];
@@ -531,6 +543,7 @@ const setHand = () => {
   }
   const params = {
     name: ruleForm.name,
+    telegramGroupId: ruleForm.telegramGroupId,
     countryIdList: ruleForm.countryIdList, // 盘口关联的国家ID列表
     userCountryList: ruleForm.userCountryList // 管理员国家配置列表
   };
@@ -569,6 +582,9 @@ const openEditModal = (row) => {
       
       // 预填盘口名称
       ruleForm.name = detailData.name;
+      
+      // 预填Telegram群组ID
+      ruleForm.telegramGroupId = detailData.telegramGroupId || "";
       
       // 预填盘口关联的国家ID
       ruleForm.countryIdList = detailData.countryList ? detailData.countryList.map(country => country.id) : [];
@@ -630,6 +646,7 @@ const editHand = () => {
   const params = {
     id: selectedRowId.value,
     name: ruleForm.name,
+    telegramGroupId: ruleForm.telegramGroupId,
     countryIdList: ruleForm.countryIdList, // 盘口关联的国家ID列表
     userCountryList: ruleForm.userCountryList // 管理员国家配置列表
   };

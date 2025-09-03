@@ -4,14 +4,14 @@
       <el-card>
         <div class="u-flex u-flex-wrap">
           <div class="u-flex u-flex-items-center box-card-input">
-            <span class="card-title"> {{ $t("文件名") }}</span>
+            <span class="card-title"> {{ t("文件名") }}</span>
             <el-input v-model="personData.fileName" class="card-input" @keyup.enter="searchPerson"
-              :placeholder="$t('请输入')" />
+              :placeholder="t('请输入')" />
           </div>
           <div class="u-flex u-flex-items-center box-card-input">
-            <span class="card-title"> {{ $t("创建人") }}</span>
+            <span class="card-title"> {{ t("创建人") }}</span>
             <el-input v-model="personData.userName" class="card-input" @keyup.enter="searchPerson"
-              :placeholder="$t('请输入')" />
+              :placeholder="t('请输入')" />
           </div>
         </div>
       </el-card>
@@ -27,38 +27,38 @@
               <el-icon>
                 <Plus />
               </el-icon>
-              {{ $t("新增") }}
+              {{ t("新增") }}
             </el-button> -->
           </div>
           <div>
-            <el-tooltip effect="dark" :content="$t('刷新')" placement="top">
+            <el-tooltip effect="dark" :content="t('刷新')" placement="top">
               <el-button @click="refresh" size="small">
                 <el-icon class="el-icon--right">
                   <Refresh />
                 </el-icon>
-                {{ $t("重置") }}
+                {{ t("重置") }}
               </el-button>
             </el-tooltip>
             <el-divider direction="vertical" />
-            <el-tooltip effect="dark" :content="$t('查询')" placement="top">
+            <el-tooltip effect="dark" :content="t('查询')" placement="top">
               <el-button type="primary" @click="searchPerson" size="small">
                 <el-icon class="el-icon--right">
                   <Search />
                 </el-icon>
-                {{ $t("查询") }}
+                {{ t("查询") }}
               </el-button>
             </el-tooltip>
           </div>
         </div>
         <el-table v-loading="loading" :data="tableData" style="width: 100%" class="m-b-10" size="small">
-          <el-table-column prop="downloadUrlId" :label="$t('ID')" />
-          <el-table-column prop="fileName" :label="$t('文件名')" />
-          <el-table-column prop="userName" :label="$t('创建人')" />
-          <el-table-column prop="currentDate" :label="$t('创建日期')" />
-          <el-table-column prop="currentDateCount" :label="$t('当日下载次数')" />
-          <el-table-column prop="currentMonthCount" :label="$t('当月下载次数')" />
-          <el-table-column prop="secretKey" :label="$t('下载密钥')" />
-          <el-table-column :label="$t('操作')">
+          <el-table-column prop="downloadUrlId" :label="t('ID')" />
+          <el-table-column prop="fileName" :label="t('文件名')" />
+          <el-table-column prop="userName" :label="t('创建人')" />
+          <el-table-column prop="currentDate" :label="t('创建日期')" />
+          <el-table-column prop="currentDateCount" :label="t('当日下载次数')" />
+          <el-table-column prop="currentMonthCount" :label="t('当月下载次数')" />
+          <el-table-column prop="secretKey" :label="t('下载密钥')" />
+          <el-table-column :label="t('操作')">
             <template #default="scope">
               <el-button type="primary" size="small" @click="
                 router.push({
@@ -66,7 +66,7 @@
                   query: { id: scope.row.downloadUrlId },
                 })
                 ">
-                {{ $t("统计明细") }}
+                {{ t("统计明细") }}
               </el-button>
             </template>
           </el-table-column>
@@ -81,21 +81,21 @@
   </el-row>
 
   <!-- 新增弹窗 -->
-  <el-drawer v-model="state.followUp" :title="state.modalMode == 'edit' ? $t('编辑') : $t('添加')" direction="rtl">
+  <el-drawer v-model="state.followUp" :title="state.modalMode == 'edit' ? t('编辑') : t('添加')" direction="rtl">
     <el-form ref="ruleFormRef" style="max-width: 600px" :model="ruleForm" :rules="rules" label-width="auto"
       class="demo-ruleForm" label-position="top" :size="formSize" status-icon require-asterisk-position="right"
       :hide-required-asterisk="true">
       <el-form-item prop="fileName">
-        <template #label>{{ $t("文件名") }}
+        <template #label>{{ t("文件名") }}
           <span style="color: red">*</span>
         </template>
         <el-input v-model="ruleForm.fileName" :disabled="state.modalMode == 'edit' ? true : false" />
       </el-form-item>
 
-      <el-form-item :label="$t('版本')" prop="fileVersion">
+      <el-form-item :label="t('版本')" prop="fileVersion">
         <el-input v-model="ruleForm.fileVersion" />
       </el-form-item>
-      <el-form-item :label="$t('文件附件ID')" prop="fileAttachmentId">
+      <el-form-item :label="t('文件附件ID')" prop="fileAttachmentId">
         <el-input v-model="ruleForm.fileAttachmentId" disabled>
           <template #prefix>
             <el-icon>
@@ -108,44 +108,44 @@
         <FileUpload :limit="1" :callback="handleFileUploaded" :modelValue="ruleForm.fileName"></FileUpload>
       </el-form-item>
       <el-form-item>
-        <el-button v-if="state.modalMode === 'edit'" type="primary" @click="editPerson">{{ $t("确认") }}</el-button>
+        <el-button v-if="state.modalMode === 'edit'" type="primary" @click="editPerson">{{ t("确认") }}</el-button>
         <el-button v-else type="primary" @click="setPerson">{{
-          $t("确认")
+          t("确认")
         }}</el-button>
       </el-form-item>
     </el-form>
   </el-drawer>
   <el-dialog v-loading="loading1" title="统计明细" v-model="state.fileDialog" width="650px" append-to-body>
     <el-table :data="fileData" style="width: 100%" class="m-b-10" size="small">
-      <el-table-column prop="clickRecordId" :label="$t('下载记录ID')" />
-      <el-table-column prop="downloadCount" :label="$t('有效期内下载次数')" />
-      <el-table-column prop="downloadDate" :label="$t('下载时间')" />
-      <el-table-column prop="ipHomeLocation" :label="$t('归属地')" />
-      <el-table-column prop="requestIPAddress" :label="$t('ip地址')" />
+      <el-table-column prop="clickRecordId" :label="t('下载记录ID')" />
+      <el-table-column prop="downloadCount" :label="t('有效期内下载次数')" />
+      <el-table-column prop="downloadDate" :label="t('下载时间')" />
+      <el-table-column prop="ipHomeLocation" :label="t('归属地')" />
+      <el-table-column prop="requestIPAddress" :label="t('ip地址')" />
     </el-table>
   </el-dialog>
   <!-- dialog弹窗 -->
   <el-dialog title="文件下载链接" v-model="state.dialogVisible" width="600px" append-to-body>
     <el-table :data="downloadUrlList" style="width: 100%" class="m-b-10" size="small">
-      <el-table-column prop="userName" :label="$t('创建人')" />
-      <el-table-column prop="effectiveDuration" :label="$t('有效时长')" />
-      <el-table-column prop="createTime" :label="$t('创建时间')" />
-      <el-table-column prop="status" :label="$t('状态')">
+      <el-table-column prop="userName" :label="t('创建人')" />
+      <el-table-column prop="effectiveDuration" :label="t('有效时长')" />
+      <el-table-column prop="createTime" :label="t('创建时间')" />
+      <el-table-column prop="status" :label="t('状态')">
         <template #default="scope">
           <el-tag :type="scope.row.status == 'Y' ? 'success' : scope.row.status == 'N' ? 'primary' : 'danger'"
             disable-transitions plain size="small">
-            {{ scope.row.status == "Y" ? $t("正常") : scope.row.status == 'N' ? $t("停用") : $t("已删除") }}
+            {{ scope.row.status == "Y" ? t("正常") : scope.row.status == 'N' ? t("停用") : t("已删除") }}
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column :label="$t('下载')">
+      <el-table-column :label="t('下载')">
         <template #default="scope">
-          <el-button type="primary" @click="downLoad(scope.row.url)">{{ $t("复制链接") }}</el-button>
+          <el-button type="primary" @click="downLoad(scope.row.url)">{{ t("复制链接") }}</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-button type="primary" @click="getNewDownId(state.id)">{{
-      $t("生成新连接")
+      t("生成新连接")
     }}</el-button>
   </el-dialog>
 </template>
