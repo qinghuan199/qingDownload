@@ -5,13 +5,13 @@ export const menuData: Menus[] = [
     id: "0",
     title: "首页",
     index: "/index",
-    icon: "Odometer",
+    icon: "dashboard",
     children: [
       {
         id: "6",
         pid: "0",
         index: "/index/dashboard",
-        icon: "Odometer",
+        icon: "dashboard",
         title: "统计",
       },
       {
@@ -30,7 +30,7 @@ export const menuData: Menus[] = [
         id: "9",
         pid: "0",
         index: "/system-menu",
-        icon: "HomeFilled",
+        icon: "home",
         title: "业务统计",
       },
     ],
@@ -40,7 +40,7 @@ export const menuData: Menus[] = [
     id: "1",
     title: "个人中心",
     index: "1",
-    icon: "HomeFilled",
+    icon: "home",
     children: [
       {
         id: "10",
@@ -99,7 +99,7 @@ export const menuData: Menus[] = [
     id: "13",
     title: "银行管理",
     index: "17",
-    icon: "HomeFilled",
+    icon: "home",
     children: [
       {
         id: "17",
@@ -114,7 +114,7 @@ export const menuData: Menus[] = [
     id: "12",
     title: "apk管理",
     index: "/",
-    icon: "Odometer",
+    icon: "dashboard",
     children: [
       {
         id: "12",
@@ -134,7 +134,7 @@ export const menuData: Menus[] = [
     id: "13",
     title: "系统",
     index: "/",
-    icon: "Odometer",
+    icon: "dashboard",
     children: [
       {
         id: "14",
@@ -308,7 +308,7 @@ export const menuData: Menus[] = [
   // },
   {
     id: "6",
-    icon: "DocumentAdd",
+    icon: "documentation",
     index: "6",
     title: "附加页面",
     children: [

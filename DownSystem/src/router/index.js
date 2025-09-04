@@ -221,6 +221,34 @@ export const constantRoutes = [
       },
     ],
   },
+      {
+    path: "/message",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "codeMessage",
+        component: () => import("@/views/message/codeMessage"),
+        name: "codeMessage",
+        meta: { title: "验证码群消息通知", icon: "user" },
+
+      },
+    ],
+  },
+      {
+    path: "/message",
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: "downloadMessage",
+        component: () => import("@/views/message/downloadMessage"),
+        name: "downloadMessage",
+        meta: { title: "下载群消息通知", icon: "user" },
+
+      },
+    ],
+  },
   {
     path: "/remoteSystem",
     component: Layout,
