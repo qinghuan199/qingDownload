@@ -55,11 +55,32 @@ const usePermissionStore = defineStore(
     }
   })
 
+// Element Plus图标到本地SVG图标的映射
+const iconMapping = {
+  'Odometer': 'dashboard',
+  'HomeFilled': 'home',
+  'DocumentAdd': 'documentation',
+  'notification': 'message',
+  'chatbubble': 'chat',
+  'notification-filled': 'notification',
+  'tune-filled': 'system',
+  'tune': 'tool',
+  'trendCharts': 'chart',
+  'spinner-cycle': 'monitor',
+  'bars': 'list',
+  'navigate-filled': 'list',
+  'arrow-down': 'download'
+}
+
 // 遍历后台传来的路由字符串，转换为组件对象
 function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
   return asyncRouterMap.filter(route => {
     if (type && route.children) {
       route.children = filterChildren(route.children)
+    }
+    // 处理图标映射
+    if (route.meta && route.meta.icon && iconMapping[route.meta.icon]) {
+      route.meta.icon = iconMapping[route.meta.icon]
     }
     if (route.component) {
       // Layout ParentView 组件特殊处理
@@ -86,9 +107,17 @@ function filterAsyncRouter(asyncRouterMap, lastRouter = false, type = false) {
 function filterChildren(childrenMap, lastRouter = false) {
   var children = []
   childrenMap.forEach((el, index) => {
+    // 处理图标映射
+    if (el.meta && el.meta.icon && iconMapping[el.meta.icon]) {
+      el.meta.icon = iconMapping[el.meta.icon]
+    }
     if (el.children && el.children.length) {
       if (el.component === 'ParentView' && !lastRouter) {
         el.children.forEach(c => {
+          // 处理子路由图标映射
+          if (c.meta && c.meta.icon && iconMapping[c.meta.icon]) {
+            c.meta.icon = iconMapping[c.meta.icon]
+          }
           c.path = el.path + '/' + c.path
           if (c.children && c.children.length) {
             children = children.concat(filterChildren(c.children, c))
