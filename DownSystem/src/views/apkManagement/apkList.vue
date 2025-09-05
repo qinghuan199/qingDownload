@@ -18,7 +18,7 @@
       <el-card>
         <div class="u-flex u-flex-items-center u-flex-between m-b-20">
           <div>
-            <el-button v-if="roles != 'user'" type="primary" @click="openAddModal" size="small">
+            <el-button v-if="roles === 'root'" type="primary" @click="openAddModal" size="small">
               <el-icon>
                 <Plus />
               </el-icon>
@@ -64,23 +64,20 @@
           </el-table-column>
           <el-table-column :label="$t('APK是否可见')">
             <template #default="scope">
-              <el-switch
-                v-model="scope.row.displayStatus"
-                :active-value="'Y'"
-                :inactive-value="'N'"
-                @change="handleDisplayStatusChange(scope.row)"
-              />
+              <el-switch v-if="roles === 'root'" v-model="scope.row.displayStatus" :active-value="'Y'"
+                :inactive-value="'N'" @change="handleDisplayStatusChange(scope.row)" />
+              <el-switch v-else v-model="scope.row.displayStatus" :active-value="'Y'" :inactive-value="'N'" disabled />
             </template>
           </el-table-column>
           <el-table-column width="180" :label="$t('操作')">
             <template #default="scope">
-              <el-button size="small" v-if="roles != 'user'" @click="openEditModal(scope.row)">
+              <el-button size="small" v-if="roles === 'root'" @click="openEditModal(scope.row)">
                 {{ $t("编辑") }}
               </el-button>
               <el-button type="primary" size="small" @click="state.fileDialog = true, getPersonId(scope.row.id)">
                 {{ $t("查看详情") }}
               </el-button>
-              <el-button class="m-l-0 m-t-5" v-if="roles != 'user'" type="danger" size="small"
+              <el-button class="m-l-0 m-t-5" v-if="roles === 'root'" type="danger" size="small"
                 @click="delPerson(scope.row.id)">
                 {{ $t("删除") }}
               </el-button>
@@ -115,19 +112,9 @@
         <el-input v-model="ruleForm.fileVersion" />
       </el-form-item>
       <el-form-item :label="$t('选择国家')" prop="countryId">
-        <el-select 
-          v-model="ruleForm.countryId" 
-          :placeholder="$t('请选择国家')"
-          style="width: 100%"
-          :loading="countryLoading"
-          clearable
-        >
-          <el-option
-            v-for="country in countryList"
-            :key="country.id"
-            :label="country.name"
-            :value="country.id"
-          />
+        <el-select v-model="ruleForm.countryId" :placeholder="$t('请选择国家')" style="width: 100%" :loading="countryLoading"
+          clearable>
+          <el-option v-for="country in countryList" :key="country.id" :label="country.name" :value="country.id" />
         </el-select>
       </el-form-item>
       <el-form-item prop="uploadType">
@@ -150,19 +137,9 @@
         </el-input>
       </el-form-item>
       <el-form-item v-if="ruleForm.uploadType == 0" prop="url">
-        <el-upload
-          class="upload-demo"
-          :class="fileList.length > 0 ? 'hide-upload-button' : ''"
-          :action="uploadUrl"
-          :on-progress="handleProgress"
-          :on-success="handleSuccess"
-          :on-error="handleError"
-          :on-remove="handleRemove"
-          :before-upload="beforeUpload"
-          :headers="headers"
-          :limit="1"
-          :file-list="fileList"
-        >
+        <el-upload class="upload-demo" :class="fileList.length > 0 ? 'hide-upload-button' : ''" :action="uploadUrl"
+          :on-progress="handleProgress" :on-success="handleSuccess" :on-error="handleError" :on-remove="handleRemove"
+          :before-upload="beforeUpload" :headers="headers" :limit="1" :file-list="fileList">
           <el-button type="primary" v-if="fileList.length === 0">{{ $t('点击上传') }}</el-button>
           <template #tip>
             <div class="el-upload__tip">
@@ -170,17 +147,14 @@
             </div>
           </template>
         </el-upload>
-        <el-progress v-if="uploadProgress > 0 && uploadProgress < 100" 
-          :percentage="uploadProgress"
-          :format="percentageFormat"
-          status="success"
-        />
+        <el-progress v-if="uploadProgress > 0 && uploadProgress < 100" :percentage="uploadProgress"
+          :format="percentageFormat" status="success" />
       </el-form-item>
       <el-form-item>
         <el-button v-if="state.modalMode === 'edit'" type="primary" @click="editPerson">{{ $t("确认") }}</el-button>
         <el-button v-else type="primary" @click="setPerson">{{
           $t("确认")
-        }}</el-button>
+          }}</el-button>
       </el-form-item>
     </el-form>
   </el-drawer>
@@ -216,7 +190,7 @@
     </div>
     <el-button type="primary" class="m-t-10" @click="copyToClipboard(state.newUrl)">{{
       $t("复制")
-    }}</el-button>
+      }}</el-button>
   </el-dialog>
   <el-dialog title="文件下载链接" v-model="state.dialogVisible" width="600px" append-to-body>
     <el-table :data="downloadUrlList" style="width: 100%" class="m-b-10" size="small">
@@ -242,7 +216,7 @@
     </el-table>
     <el-button type="primary" @click="getNewDownId(state.id)">{{
       $t("生成新连接")
-    }}</el-button>
+      }}</el-button>
   </el-dialog>
 </template>
 <script setup>
@@ -262,6 +236,7 @@ import {
 } from "@/api/apkManagement/apkList";
 import { getCountryListPage } from "@/api/handicapManagement/countryList";
 import { getInfo } from "@/api/login";
+import useUserStore from "@/store/modules/user";
 import { uploadFile } from "@/api/upload";
 import { useI18n } from "vue-i18n";
 import { getToken } from "@/utils/auth";
@@ -757,7 +732,7 @@ const handleDisplayStatusChange = (row) => {
     id: row.id,
     displayStatus: row.displayStatus
   };
-  
+
   updateFileDisplayStatusPage(params)
     .then((res) => {
       ElMessage({
@@ -802,9 +777,10 @@ const delPerson = (id) => {
     .catch(() => { });
 };
 const roles = ref('');
+const userStore = useUserStore();
 
 const getUserInfo = () => {
-  getInfo()
+  userStore.getInfo()
     .then((res) => {
       roles.value = res.roles[0]
       console.log("获取角色", roles.value);
@@ -861,6 +837,7 @@ onMounted(() => {
   :deep(.el-upload) {
     display: block;
   }
+
   :deep(.el-upload-list) {
     margin-top: 10px;
   }
@@ -870,6 +847,7 @@ onMounted(() => {
   :deep(.el-upload) {
     display: none !important;
   }
+
   :deep(.el-upload-list) {
     margin: 0;
   }
@@ -921,5 +899,4 @@ onMounted(() => {
   height: 130px;
   text-align: center;
 }
-
 </style>

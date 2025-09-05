@@ -16,16 +16,17 @@
             </el-select>
           </div>
           <div class="u-flex u-flex-items-center box-card-input">
-            <span class="card-title"> {{ $t("Telegram用户名") }}</span>
-            <el-input v-model="personData.telegramUserName" class="card-input" @keyup.enter="searchPerson"
-              :placeholder="$t('请输入')" />
-          </div>
-          <div class="u-flex u-flex-items-center box-card-input">
             <span class="card-title"> {{ $t("状态") }}</span>
             <el-select v-model="personData.status" :placeholder="$t('请选择')" style="width: 240px">
               <el-option v-for="item in status" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
+          <div class="u-flex u-flex-items-center box-card-input">
+            <span class="card-title"> {{ $t("Telegram用户名") }}</span>
+            <el-input v-model="personData.telegramUserName" class="card-input" @keyup.enter="searchPerson"
+              :placeholder="$t('请输入')" />
+          </div>
+
         </div>
       </el-card>
     </el-col>
@@ -36,7 +37,7 @@
       <el-card>
         <div class="u-flex u-flex-items-center u-flex-between m-b-20">
           <div>
-            <el-button type="primary" @click="openAddModal" size="small">
+            <el-button v-if="roles != 'user'" type="primary" @click="openAddModal" size="small">
               <el-icon>
                 <Plus />
               </el-icon>
@@ -93,19 +94,44 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column :label="$t('操作')" >
+          <el-table-column :label="$t('关联国家')">
             <template #default="scope">
+              <el-tag v-for="countryName in scope.row.countryNameList" :key="countryName" type="primary" size="small"
+                class="m-r-5 m-b-5">
+                {{ countryName }}
+              </el-tag>
+              <span v-if="!scope.row.countryNameList || scope.row.countryNameList.length === 0" class="text-gray-400">{{
+                $t('暂无关联国家') }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column :label="$t('操作')">
+            <template #default="scope">
+              <!-- 编辑按钮 - 所有用户都可以看到 -->
               <el-button size="small" @click="openEditModal(scope.row)">
                 {{ $t("编辑") }}
               </el-button>
-              <el-button type="primary" class="" size="small" @click="updateModal(scope.row)">
+              
+              <!-- 修改状态按钮 - 根据角色和权限显示 -->
+              <el-button v-if="shouldShowStatusButton(scope.row)" type="primary" class="" size="small" @click="updateModal(scope.row)">
                 {{ $t("修改状态") }}
               </el-button>
               <br />
-              <el-button type="danger" class="m-t-5 m-l-0" size="small" @click="delPerson(scope.row)">
+              
+              <!-- 删除按钮 - 管理员看到自己的删除按钮时禁用 -->
+              <el-button v-if="shouldShowDeleteButton(scope.row)" 
+                :disabled="isAdminSelf(scope.row)"
+                type="danger" 
+                class="m-t-5 m-l-0" 
+                size="small"
+                @click="delPerson(scope.row)">
                 {{ $t("删除") }}
               </el-button>
-              <el-button class="m-t-5" v-if="roles != 'user' && scope.row.roleId == '3'" type="primary" size="small"
+              
+              <!-- 获取验证码按钮 - 非普通用户且针对业务员，或管理员针对其他管理员 -->
+              <el-button class="m-t-5" 
+                v-if="shouldShowVerifyCodeButton(scope.row)" 
+                type="primary" 
+                size="small"
                 @click="getVerifyCode(scope.row.id)">
                 {{ $t("获取验证码") }}
               </el-button>
@@ -174,6 +200,14 @@
         </el-select>
       </el-form-item>
 
+      <!-- 国家选择 - 只有普通用户才显示 -->
+      <el-form-item v-if="ruleForm.roleId === '3'" :label="$t('关联国家')" prop="countryIdList">
+        <el-select v-model="ruleForm.countryIdList" multiple :placeholder="$t('请选择关联国家')" style="width: 100%"
+          :loading="countryLoading" collapse-tags collapse-tags-tooltip :max-collapse-tags="5">
+          <el-option v-for="country in countryList" :key="country.id" :label="country.name" :value="country.id" />
+        </el-select>
+      </el-form-item>
+
       <el-form-item>
         <el-button v-if="state.modalMode === 'edit'" type="primary" @click="editPerson">{{ $t("确认") }}</el-button>
         <el-button v-else type="primary" @click="setPerson">{{
@@ -194,7 +228,7 @@
 
 </template>
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import useUserStore from "@/store/modules/user";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -206,6 +240,7 @@ import {
   updateStatusPage,
   getVerifyCodePage
 } from "@/api/system/personlist";
+import { getCountryListPage } from "@/api/handicapManagement/countryList";
 import { uploadFile } from "@/api/upload";
 import { useI18n } from "vue-i18n";
 const { t } = useI18n();
@@ -322,8 +357,10 @@ const ruleForm = reactive({
   userName: "",
   telegramUserName: "",
   roleId: "",
+  roleName: "",
   password: "",
   status: "",
+  countryIdList: [], // 关联国家ID列表
 });
 
 const rules = reactive({
@@ -342,17 +379,130 @@ const rules = reactive({
   // ],
 });
 const roles = ref('');
+const currentUserId = ref('');
+const currentUserName = ref('');
+
+// 国家相关数据
+const countryList = ref([]);
+const countryLoading = ref(false);
 
 const getUserInfo = () => {
   userStore.getInfo()
     .then((res) => {
       roles.value = res.roles[0]
+      currentUserId.value = userStore.id
+      currentUserName.value = userStore.name
       console.log("获取角色", roles.value);
-      
+      console.log("当前用户ID", currentUserId.value);
+      console.log("当前用户名", currentUserName.value);
     })
     .catch((error) => {
       console.error("获取角色失败", error);
     });
+};
+
+// 获取国家列表
+const getCountryList = () => {
+  countryLoading.value = true;
+  return getCountryListPage({
+    currentPage: 1,
+    pageSize: 100, // 获取所有国家
+    name: ""
+  })
+    .then((res) => {
+      if (res.data && res.data.records) {
+        countryList.value = res.data.records;
+        console.log("获取国家列表成功", res.data.records);
+      }
+      return res;
+    })
+    .catch((error) => {
+      console.error("获取国家列表失败", error);
+      throw error;
+    })
+    .finally(() => {
+      countryLoading.value = false;
+    });
+};
+
+// 判断是否显示删除按钮
+// 判断是否为管理员自己
+const isAdminSelf = (row) => {
+  return roles.value === 'admin' && (row.id === currentUserId.value || row.userName === currentUserName.value);
+};
+
+// 判断是否显示修改状态按钮
+const shouldShowStatusButton = (row) => {
+  // root超管显示所有修改状态按钮
+  if (roles.value === 'root') {
+    return true;
+  }
+
+  // 普通用户不显示修改状态按钮
+  if (roles.value === 'user') {
+    return false;
+  }
+
+  // 管理员角色
+  if (roles.value === 'admin') {
+    // 管理员可以修改业务员和其他管理员的状态（包括自己）
+    if (row.roleId === '3' || row.roleId === '2') {
+      return true;
+    }
+    // 不能修改超级管理员的状态
+    return false;
+  }
+
+  return false;
+};
+
+// 判断是否显示获取验证码按钮
+const shouldShowVerifyCodeButton = (row) => {
+  // 普通用户不显示获取验证码按钮
+  if (roles.value === 'user') {
+    return false;
+  }
+
+  // 超管可以看到所有用户的获取验证码按钮（包括管理员和业务员）
+  if (roles.value === 'root') {
+    return row.roleId === '2' || row.roleId === '3';
+  }
+
+  // 非普通用户且针对业务员显示
+  if (row.roleId === '3') {
+    return true;
+  }
+
+  // 管理员针对其他管理员也显示获取验证码按钮
+  if (roles.value === 'admin' && row.roleId === '2') {
+    return true;
+  }
+
+  return false;
+};
+
+const shouldShowDeleteButton = (row) => {
+  // root超管显示所有删除按钮
+  if (roles.value === 'root') {
+    return true;
+  }
+
+  // 下级员工(业务员)不显示删除按钮
+  if (roles.value === 'user') {
+    return false;
+  }
+
+  // 管理员角色
+  if (roles.value === 'admin') {
+    // 管理员可以看到业务员和其他管理员的删除按钮（包括自己，但会被禁用）
+    if (row.roleId === '3' || row.roleId === '2') {
+      return true;
+    }
+    // 不能删除超级管理员
+    return false;
+  }
+
+  return false;
 };
 
 //获取验证码
@@ -451,8 +601,12 @@ const openAddModal = () => {
   state.modalMode = "add";
   ruleForm.userName = "";
   ruleForm.telegramUserName = "";
+  ruleForm.roleId = "";
+  ruleForm.roleName = "";
   ruleForm.password = "";
   ruleForm.status = null;
+  ruleForm.countryIdList = []; // 重置国家选择
+  getCountryList(); // 获取国家列表
   state.followUp = true;
 };
 // 检查字段是否填写并返回
@@ -463,6 +617,7 @@ const checkIn = () => {
     // { name: t("Telegram用户名"), value: ruleForm.telegramUserName },
     // { name: t('头像'), value: ruleForm.avatar },
     { name: t("密码"), value: ruleForm.password },
+    { name: t("角色"), value: ruleForm.roleId },
     // { name: t("状态"), value: ruleForm.status },
   ];
   // 检查字段是否为空
@@ -490,6 +645,7 @@ const setPerson = () => {
     roleName: ruleForm.roleName,
     status: ruleForm.status,
     password: ruleForm.password,
+    countryIdList: ruleForm.countryIdList, // 添加国家ID列表
   })
     .then((res) => {
       ElMessage({
@@ -515,6 +671,8 @@ const openEditModal = (row) => {
   ruleForm.password = row.password;
   ruleForm.roleName = row.roleName;
   ruleForm.roleId = row.roleId;
+  ruleForm.countryIdList = row.countryIdList || []; // 设置用户的国家选择
+  getCountryList(); // 获取国家列表
   state.followUp = true;
 };
 
@@ -529,6 +687,7 @@ const editPerson = () => {
     password: ruleForm.password,
     roleName: ruleForm.roleName,
     roleId: ruleForm.roleId,
+    countryIdList: ruleForm.countryIdList, // 添加国家ID列表
   })
     .then((res) => {
       ElMessage({
@@ -633,6 +792,22 @@ const refresh = () => {
   resetRuleForm(); //重置放在前面 提前情况status的状态再刷新数据
   getPerson(); // 重新获取数据
 };
+
+// 监听角色变化，当选择管理员角色时清空国家选择，并设置roleName
+watch(() => ruleForm.roleId, (newRoleId) => {
+  // 如果选择的不是普通用户（roleId !== '3'），则清空国家选择
+  if (newRoleId !== '3') {
+    ruleForm.countryIdList = [];
+  }
+
+  // 根据roleId设置对应的roleName
+  const roleMap = {
+    '1': '超级管理员',
+    '2': '管理员',
+    '3': '业务员'
+  };
+  ruleForm.roleName = roleMap[newRoleId] || '';
+});
 
 onMounted(() => {
   getPerson();

@@ -28,7 +28,7 @@
       <el-card>
         <div class="u-flex u-flex-items-center u-flex-between m-b-20">
           <div>
-            <el-button v-if="roles != 'user'" type="primary" @click="openAddModal" size="small">
+            <el-button v-if="roles === 'root'" type="primary" @click="openAddModal" size="small">
               <el-icon>
                 <Plus />
               </el-icon>
@@ -79,7 +79,7 @@
           </el-table-column>
           <el-table-column width="300" :label="$t('操作')">
             <template #default="scope">
-              <el-button size="small" v-if="roles != 'user'" @click="openEditModal(scope.row)">
+              <el-button size="small" v-if="roles === 'root'" @click="openEditModal(scope.row)">
                 {{ $t("编辑") }}
               </el-button>
               <el-button type="primary" size="small" @click="viewHandicapDetail(scope.row.id)">
@@ -88,7 +88,7 @@
               <el-button type="info" size="small" @click="viewEmployeeStats(scope.row.id)">
                 {{ $t("员工统计") }}
               </el-button>
-              <el-button class="m-l-10 " v-if="roles != 'user'" type="danger" size="small"
+              <el-button class="m-l-10 " v-if="roles === 'root'" type="danger" size="small"
                 @click="delHand(scope.row.id)">
                 {{ $t("删除") }}
               </el-button>
@@ -234,7 +234,7 @@ import {
   getPersonPage,
 } from "@/api/system/personlist";
 
-import { getInfo } from "@/api/login";
+import useUserStore from "@/store/modules/user";
 import { uploadFile } from "@/api/upload";
 import { useI18n } from "vue-i18n";
 import { getToken } from "@/utils/auth";
@@ -327,7 +327,7 @@ const rules = reactive({
     { required: true, message: t("盘口名称") + t("不能为空"), trigger: "blur" },
   ],
   countryIdList: [
-    { required: true, message: t("请选择盘口关联国家"), trigger: "change" },
+    { required: true, message: t("请选择盘口关联国家"), trigger: "blur" },
   ],
 });
 
@@ -734,10 +734,12 @@ const delHand = (id) => {
 };
 const roles = ref('');
 
+const userStore = useUserStore();
+
 const getUserInfo = () => {
-  getInfo()
+  userStore.getInfo()
     .then((res) => {
-      roles.value = res.roles[0]
+      roles.value = userStore.roles[0];
       console.log("获取角色", roles.value);
     })
     .catch((error) => {
