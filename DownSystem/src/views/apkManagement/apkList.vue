@@ -48,7 +48,16 @@
         <el-table v-loading="loading" :data="tableData" style="width: 100%" class="m-b-10" size="small">
           <el-table-column prop="id" :label="$t('ID')" />
           <el-table-column prop="fileName" :label="$t('银行名称')" />
-          <el-table-column prop="countryName" :label="$t('关联国家')" />
+          <el-table-column :label="$t('关联国家')">
+            <template #default="scope">
+              <el-tag v-for="country in scope.row.countryList" :key="country.id" type="info" size="small"
+                class="m-r-5 m-b-5">
+                {{ country.name }}
+              </el-tag>
+              <span v-if="!scope.row.countryList || scope.row.countryList.length === 0" class="text-gray-400">{{
+                $t('暂无关联国家') }}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="fileSize" :label="$t('文件大小')" />
           <el-table-column prop="fileType" :label="$t('文件类型')" />
           <el-table-column prop="fileVersion" :label="$t('版本号')" />
@@ -111,9 +120,9 @@
       <el-form-item :label="$t('版本')" prop="fileVersion">
         <el-input v-model="ruleForm.fileVersion" />
       </el-form-item>
-      <el-form-item :label="$t('选择国家')" prop="countryId">
-        <el-select v-model="ruleForm.countryId" :placeholder="$t('请选择国家')" style="width: 100%" :loading="countryLoading"
-          clearable>
+      <el-form-item :label="$t('选择国家')" prop="countryIdList">
+        <el-select v-model="ruleForm.countryIdList" multiple :placeholder="$t('请选择国家')" style="width: 100%" :loading="countryLoading"
+          clearable collapse-tags collapse-tags-tooltip :max-collapse-tags="5">
           <el-option v-for="country in countryList" :key="country.id" :label="country.name" :value="country.id" />
         </el-select>
       </el-form-item>
@@ -162,6 +171,16 @@
     <el-table :data="fileData" style="width: 100%" class="m-b-10" size="small">
       <el-table-column prop="id" :label="$t('ID')" />
       <el-table-column prop="fileName" :label="$t('银行名称')" />
+      <el-table-column :label="$t('关联国家')">
+        <template #default="scope">
+          <el-tag v-for="country in scope.row.countryList" :key="country.id" type="info" size="small"
+            class="m-r-5 m-b-5">
+            {{ country.name }}
+          </el-tag>
+          <span v-if="!scope.row.countryList || scope.row.countryList.length === 0" class="text-gray-400">{{
+            $t('暂无关联国家') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="fileAttachmentOriginalName" :label="$t('原始文件名')" />
       <el-table-column prop="fileSize" :label="$t('文件大小')" />
       <el-table-column prop="fileType" :label="$t('文件类型')" />
@@ -376,7 +395,7 @@ const ruleForm = reactive({
   fileVersion: "",
   downloadUrl: "",
   uploadType,
-  countryId: ""
+  countryIdList: []
 });
 
 // 国家列表相关数据
@@ -402,6 +421,15 @@ const rules = reactive({
       required: () => ruleForm.uploadType === 1, // 仅在 uploadType 为 1 时验证
       message: t("下载地址") + t("不能为空"),
       trigger: "blur",
+    },
+  ],
+  countryIdList: [
+    { 
+      required: true, 
+      message: t("国家") + t("不能为空"), 
+      trigger: "change",
+      type: "array",
+      min: 1
     },
   ],
 });
@@ -460,6 +488,10 @@ const getPersonId = (id) => {
         fileData.value = [res.data];
         state.url = res.data.url;
         ruleForm.downloadUrl = res.data.downloadUrl;
+        // 从文件详情数据中提取国家ID列表
+        if (res.data.countryList && res.data.countryList.length > 0) {
+          ruleForm.countryIdList = res.data.countryList.map(country => country.id);
+        }
         if (res.data.fileAttachmentId && res.data.url) {
           fileList.value = [{
             name: res.data.fileAttachmentOriginalName || res.data.fileName,
@@ -564,7 +596,7 @@ const openAddModal = () => {
   ruleForm.fileAttachmentId = "";
   ruleForm.downloadUrl = "";
   ruleForm.fileVersion = "";
-  ruleForm.countryId = "";
+  ruleForm.countryIdList = [];
   ruleForm.uploadType = 0; // 默认选择文件上传
   ruleForm.url = "";
   state.url = "";
@@ -606,7 +638,7 @@ const setPerson = () => {
   const params = {
     fileName: ruleForm.fileName,
     fileVersion: ruleForm.fileVersion,
-    countryId: ruleForm.countryId,
+    countryIdList: ruleForm.countryIdList,
   };
 
   // 根据 uploadType 决定传递 fileAttachmentId 还是 downloadUrl
@@ -640,7 +672,7 @@ const openEditModal = (row) => {
   ruleForm.fileAttachmentId = row.fileAttachmentId;
   ruleForm.downloadUrl = row.downloadUrl;
   ruleForm.fileVersion = row.fileVersion;
-  ruleForm.countryId = row.countryId || "";
+  ruleForm.countryIdList = row.countryIdList || [];
   ruleForm.uploadType = row.uploadType || 0; // 默认选择文件上传
   uploadProgress.value = 0;
   if (row.fileAttachmentId && row.url) {
@@ -665,7 +697,7 @@ const editPerson = () => {
     id: selectedRowId.value,
     fileName: ruleForm.fileName,
     fileVersion: ruleForm.fileVersion,
-    countryId: ruleForm.countryId,
+    countryIdList: ruleForm.countryIdList,
   };
   // 根据 uploadType 决定传递 fileAttachmentId 还是 downloadUrl
   if (ruleForm.uploadType === 0) {
